@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Panel Usuario</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { font-family: Arial, sans-serif; background: #121212; color: #f5f5f5; margin: 0; padding: 20px; }
+    h1 { font-size: 1.4rem; }
+    .card {
+      background: #1e1e1e; padding: 20px; border-radius: 12px;
+      max-width: 500px; margin: 20px auto; box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    }
+    input, button {
+      display: block; width: 100%; margin: 10px 0; padding: 12px;
+      border-radius: 8px; border: none; font-size: 1rem;
+    }
+    input[type="file"] { background: #2a2a2a; color: #ccc; }
+    button {
+      background: linear-gradient(90deg, #4CAF50, #2E8B57); 
+      color: white; font-weight: bold; cursor: pointer; transition: 0.3s;
+    }
+    button:hover { opacity: 0.9; }
+    .summary { margin-top: 20px; padding: 15px; background: #2a2a2a; border-radius: 8px; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Panel de Usuario</h1>
+    <p><b>Usuario:</b> <span id="username"></span></p>
+    <p><b>Correo virtual:</b> <span id="userEmail"></span></p>
+
+    <label>📄 DNI Frente</label>
+    <input type="file" id="dniFrente" accept="image/*">
+    <label>📄 DNI Dorso</label>
+    <input type="file" id="dniDorso" accept="image/*">
+
+    <button id="sendBtn">📤 Enviar Solicitud</button>
+
+    <div id="result" class="summary" style="display:none;"></div>
+  </div>
+
+  <script>
+    // Extraer username desde la URL (/username)
+    const username = window.location.pathname.replace("/", "") || "anonimo";
+    document.getElementById("username").innerText = username;
+
+    // Generar correo virtual
+    const domain = window.location.hostname; 
+    const userEmail = `${username}@${domain}`;
+    document.getElementById("userEmail").innerText = userEmail;
+
+    // Botón de envío simulado
+    document.getElementById("sendBtn").addEventListener("click", () => {
+      const frente = document.getElementById("dniFrente").files[0];
+      const dorso = document.getElementById("dniDorso").files[0];
+
+      if (!frente || !dorso) {
+        alert("Por favor subí frente y dorso del DNI.");
+        return;
+      }
+
+      // Simulación de registro (como si fuera backend)
+      const solicitud = {
+        username,
+        email: userEmail,
+        fecha: new Date().toLocaleString(),
+        archivos: {
+          frente: frente.name,
+          dorso: dorso.name
+        },
+        estado: "Pendiente de procesamiento"
+      };
+
+      // Guardar en localStorage (simulación de BD)
+      localStorage.setItem(`solicitud_${username}`, JSON.stringify(solicitud));
+
+      // Mostrar resumen
+      const resDiv = document.getElementById("result");
+      resDiv.style.display = "block";
+      resDiv.innerHTML = `
+        <h3>✅ Solicitud enviada</h3>
+        <p><b>Fecha:</b> ${solicitud.fecha}</p>
+        <p><b>Archivos:</b> ${solicitud.archivos.frente}, ${solicitud.archivos.dorso}</p>
+        <p><b>Estado:</b> ${solicitud.estado}</p>
+      `;
+    });
+  </script>
+</body>
+</html>
