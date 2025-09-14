@@ -1,153 +1,160 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TuVerax - Rehabilitación Crediticia</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <style>
-    body { font-family: 'Inter', sans-serif; }
-    .gradient-bg { background: linear-gradient(135deg, #6D5BFF, #3ACFD5); }
-    .card { transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.5s; opacity: 0; }
-    .card.show { opacity: 1; transform: translateY(0); }
-    .card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.15); }
-    .modal-bg { background: rgba(0,0,0,0.6); }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TuVerax - Rehabilitación Crediticia</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  body { font-family: 'Inter', sans-serif; }
+  .gradient-bg { background: linear-gradient(135deg, #6D5BFF, #3ACFD5); }
+  .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 1s ease, transform 1s ease; }
+  .fade-in.show { opacity: 1; transform: translateY(0); }
+  .parallax { background-attachment: fixed; background-size: cover; background-position: center; }
+  .card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+  .card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.15); }
+</style>
 </head>
 <body class="bg-gray-100 text-gray-800">
 
-  <!-- Header -->
-  <header class="fixed w-full z-50 gradient-bg text-white shadow-lg">
-    <div class="container mx-auto flex justify-between items-center py-4 px-6">
-      <h1 class="text-2xl font-bold tracking-wide">TuVerax</h1>
-      <nav class="space-x-6 text-lg">
-        <a href="#autogestion" class="hover:underline">Autogestión</a>
-        <a href="#premium" class="hover:underline">Premium</a>
-        <a href="#contacto" class="hover:underline">Contacto</a>
-      </nav>
-    </div>
-  </header>
-
-  <!-- Hero -->
-  <section class="h-screen flex items-center justify-center text-center px-6 pt-24">
-    <div class="animate-fadeIn">
-      <h2 class="text-5xl md:text-6xl font-bold mb-6 text-gray-900">Recupera tu historial crediticio</h2>
-      <p class="text-xl md:text-2xl text-gray-700 mb-8">Conoce tus derechos, elimina deudas y accede al crédito con inteligencia.</p>
-      <a href="#autogestion" class="inline-block bg-white text-gradient font-semibold px-8 py-4 rounded-xl shadow-lg hover:scale-105 transition transform">
-        Comenzar Gratis
-      </a>
-    </div>
-  </section>
-
-  <!-- Sección Cards Autogestión / Premium -->
-  <section class="py-24">
-    <div class="container mx-auto px-6 grid md:grid-cols-2 gap-12">
-      
-      <!-- Card Autogestión -->
-      <div class="card bg-white p-10 rounded-3xl shadow-xl" id="cardAutogestion">
-        <h3 class="text-3xl font-bold mb-4">Autogestión Gratuita</h3>
-        <p class="mb-6 text-gray-600">Genera tus cartas y sigue los pasos para limpiar tu historial sin pagar nada.</p>
-        <ul class="mb-6 space-y-2 text-gray-700 list-inside list-disc">
-          <li>Cartas automáticas para deudas prescriptas o pagadas</li>
-          <li>Guía paso a paso para reclamos</li>
-          <li>Explicación sobre bases de riesgo y entidades financieras</li>
-        </ul>
-        <button onclick="generarCartas()" class="bg-gradient-to-r from-purple-600 to-cyan-400 text-white font-semibold px-6 py-3 rounded-xl hover:scale-105 transition transform inline-block">
-          Generar Mis Cartas
-        </button>
-      </div>
-
-      <!-- Card Servicio Premium -->
-      <div class="card bg-gradient-to-r from-purple-600 to-cyan-400 text-white p-10 rounded-3xl shadow-xl" id="cardPremium">
-        <h3 class="text-3xl font-bold mb-4">Servicio Premium</h3>
-        <p class="mb-6">Un asesor hace todo por vos: análisis, reclamos, informes comerciales y evaluación de crédito.</p>
-        <ul class="mb-6 space-y-2 list-inside list-disc">
-          <li>Análisis completo de tu historial financiero</li>
-          <li>Envío y seguimiento de reclamos</li>
-          <li>Informes comerciales completos y evaluación de posibilidad de crédito</li>
-          <li>Plan personalizado de rehabilitación financiera</li>
-        </ul>
-        <p class="font-semibold text-yellow-200 mb-4">Pago por adelantado. Solo acceso Premium.</p>
-        <button onclick="abrirModal()" class="bg-white text-purple-700 font-semibold px-6 py-3 rounded-xl hover:scale-105 transition transform inline-block">
-          Contratar Premium
-        </button>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- Modal Premium -->
-  <div id="modalPremium" class="hidden fixed inset-0 flex items-center justify-center modal-bg z-50">
-    <div class="bg-white rounded-3xl shadow-xl p-10 max-w-lg text-center">
-      <h3 class="text-2xl font-bold mb-4">Servicio Premium</h3>
-      <p class="mb-6">Incluye análisis completo de tu historial crediticio, generación de reclamos, informes comerciales y evaluación de crédito.</p>
-      <button onclick="cerrarModal()" class="bg-gradient-to-r from-purple-600 to-cyan-400 text-white px-6 py-3 rounded-xl font-semibold hover:scale-105 transition transform">
-        Entendido
+<!-- Header -->
+<header class="fixed w-full z-50 gradient-bg text-white shadow-lg">
+  <div class="container mx-auto flex justify-between items-center py-4 px-6">
+    <h1 class="text-2xl font-bold tracking-wide">TuVerax</h1>
+    <div class="md:hidden">
+      <button id="menuBtn" class="focus:outline-none">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
       </button>
     </div>
+    <nav id="navMenu" class="hidden md:flex space-x-6 text-lg">
+      <a href="#autogestion" class="hover:underline">Autogestión</a>
+      <a href="#premium" class="hover:underline">Premium</a>
+      <a href="#nosotros" class="hover:underline">Nosotros</a>
+      <a href="#contacto" class="hover:underline">Contacto</a>
+    </nav>
+  </div>
+</header>
+
+<!-- Hero con parallax -->
+<section class="h-screen flex items-center justify-center text-center px-6 parallax" style="background-image: url('https://images.unsplash.com/photo-1557682250-0b9f3dbb6d90?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&q=80&w=1600');">
+  <div class="text-white bg-black/40 p-8 rounded-xl fade-in" id="heroText">
+    <h2 class="text-5xl md:text-6xl font-bold mb-6">Recupera tu historial crediticio</h2>
+    <p class="text-xl md:text-2xl mb-8">Conoce tus derechos, elimina deudas y accede al crédito con inteligencia.</p>
+    <a href="#autogestion" class="bg-gradient-to-r from-purple-600 to-cyan-400 px-8 py-4 rounded-xl font-semibold hover:scale-105 transition transform">Comenzar Gratis</a>
+  </div>
+</section>
+
+<!-- Cards Autogestión / Premium -->
+<section class="py-24 container mx-auto px-6 grid md:grid-cols-2 gap-12">
+  <div class="card bg-white p-10 rounded-3xl shadow-xl fade-in" data-delay="0.1s">
+    <h3 class="text-3xl font-bold mb-4">Autogestión Gratuita</h3>
+    <p class="mb-6 text-gray-600">Genera tus cartas y sigue los pasos para limpiar tu historial sin pagar nada.</p>
+    <ul class="mb-6 space-y-2 text-gray-700 list-inside list-disc">
+      <li>Cartas automáticas personalizadas con IA</li>
+      <li>Guía paso a paso para reclamos</li>
+      <li>Explicación sobre bases de riesgo y entidades financieras</li>
+    </ul>
+    <button onclick="mostrarFormulario()" class="bg-gradient-to-r from-purple-600 to-cyan-400 text-white font-semibold px-6 py-3 rounded-xl hover:scale-105 transition transform inline-block">Generar Mis Cartas</button>
   </div>
 
-  <!-- Cartas Autogestión -->
-  <section id="cartas" class="py-24 hidden">
-    <div class="container mx-auto px-6 max-w-3xl">
-      <h3 class="text-3xl font-bold mb-6 text-center">Tus cartas generadas</h3>
-      <div id="cartasContenido" class="space-y-6 bg-white p-10 rounded-3xl shadow-xl"></div>
+  <div class="card bg-gradient-to-r from-purple-600 to-cyan-400 text-white p-10 rounded-3xl shadow-xl fade-in" data-delay="0.2s">
+    <h3 class="text-3xl font-bold mb-4">Servicio Premium</h3>
+    <p class="mb-6">Un asesor hace todo por vos: análisis, reclamos, informes comerciales y evaluación de crédito.</p>
+    <ul class="mb-6 space-y-2 list-inside list-disc">
+      <li>Análisis completo de tu historial financiero</li>
+      <li>Envío y seguimiento de reclamos</li>
+      <li>Informes comerciales completos y evaluación de posibilidad de crédito</li>
+      <li>Plan personalizado de rehabilitación financiera</li>
+    </ul>
+    <p class="font-semibold text-yellow-200 mb-4">Pago por adelantado. Solo acceso Premium.</p>
+    <button onclick="abrirModal()" class="bg-white text-purple-700 font-semibold px-6 py-3 rounded-xl hover:scale-105 transition transform inline-block">Contratar Premium</button>
+  </div>
+</section>
+
+<!-- Sección Nosotros -->
+<section id="nosotros" class="py-24 bg-gray-50">
+  <div class="container mx-auto px-6 max-w-4xl text-center">
+    <h3 class="text-3xl font-bold mb-12 fade-in">Sobre Nosotros</h3>
+    <div class="grid md:grid-cols-2 gap-12 items-center">
+      <div class="bg-white p-8 rounded-3xl shadow-xl fade-in">
+        <img src="https://i.pravatar.cc/150?img=12" alt="Ronaldo Martínez" class="w-32 h-32 mx-auto rounded-full mb-4">
+        <h4 class="font-bold text-xl mb-2">Ronaldo Martínez</h4>
+        <p class="text-gray-700">Fundador de TuVerax. Mi misión es que cada usuario recupere control sobre su historial financiero de manera transparente y segura.</p>
+      </div>
+      <div class="bg-gradient-to-r from-purple-600 to-cyan-400 text-white p-8 rounded-3xl shadow-xl fade-in">
+        <img src="https://i.pravatar.cc/150?img=32" alt="Asistente IA" class="w-32 h-32 mx-auto rounded-full mb-4 border-4 border-white">
+        <h4 class="font-bold text-xl mb-2">Asistente IA</h4>
+        <p>IA experta en derecho crediticio y protección de datos. Ayuda a generar cartas automáticas, analizar historial financiero y guiar al usuario paso a paso.</p>
+      </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- Contacto / Formulario -->
-  <section id="contacto" class="py-24 bg-gray-50">
-    <div class="container mx-auto px-6 max-w-3xl">
-      <h3 class="text-3xl font-bold mb-6 text-center">Contacto / Formulario</h3>
-      <form class="bg-white p-10 rounded-3xl shadow-xl space-y-6">
-        <input type="text" placeholder="Nombre completo" class="w-full p-4 rounded-xl border border-gray-300 focus:ring-2 focus:ring-purple-400 focus:outline-none">
-        <input type="email" placeholder="Correo electrónico" class="w-full p-4 rounded-xl border border-gray-300 focus:ring-2 focus:ring-purple-400 focus:outline-none">
-        <input type="tel" placeholder="Teléfono" class="w-full p-4 rounded-xl border border-gray-300 focus:ring-2 focus:ring-purple-400 focus:outline-none">
-        <select class="w-full p-4 rounded-xl border border-gray-300 focus:ring-2 focus:ring-purple-400 focus:outline-none">
-          <option value="autogestion">Autogestión Gratuita</option>
-          <option value="premium">Servicio Premium</option>
-        </select>
-        <textarea placeholder="Mensaje / Detalles de deudas" rows="4" class="w-full p-4 rounded-xl border border-gray-300 focus:ring-2 focus:ring-purple-400 focus:outline-none"></textarea>
-        <button type="submit" class="w-full bg-gradient-to-r from-purple-600 to-cyan-400 text-white font-bold py-4 rounded-xl hover:scale-105 transition transform">Enviar</button>
-      </form>
-    </div>
-  </section>
+<!-- Formulario Autogestión -->
+<section id="formulario" class="py-24 hidden">
+  <div class="container mx-auto px-6 max-w-3xl">
+    <h3 class="text-3xl font-bold mb-6 text-center fade-in">Genera tus cartas personalizadas</h3>
+    <form id="formCartas" class="bg-white p-10 rounded-3xl shadow-xl space-y-6 fade-in">
+      <input type="text" placeholder="Nombre completo" id="nombre" class="w-full p-4 rounded-xl border border-gray-300 focus:ring-2 focus:ring-purple-400 focus:outline-none" required>
+      <input type="email" placeholder="Correo electrónico" id="correo" class="w-full p-4 rounded-xl border border-gray-300 focus:ring-2 focus:ring-purple-400 focus:outline-none" required>
+      <textarea placeholder="Detalles de tus deudas (entidad, monto, estado, fecha)" id="deudas" rows="4" class="w-full p-4 rounded-xl border border-gray-300 focus:ring-2 focus:ring-purple-400 focus:outline-none" required></textarea>
+      <button type="submit" class="w-full bg-gradient-to-r from-purple-600 to-cyan-400 text-white font-bold py-4 rounded-xl hover:scale-105 transition transform">Generar Cartas</button>
+    </form>
+    <div id="resultadoCartas" class="mt-10 space-y-6"></div>
+  </div>
+</section>
 
-  <!-- Footer -->
-  <footer class="bg-gray-900 text-white py-12 text-center">
-    <p>© 2025 TuVerax. Todos los derechos reservados.</p>
-  </footer>
+<!-- Footer -->
+<footer class="bg-gray-900 text-white py-12 text-center">
+  <p>© 2025 TuVerax. Todos los derechos reservados.</p>
+</footer>
 
-  <!-- Scripts -->
-  <script>
-    // Animación cards al cargar
-    window.addEventListener('load', () => {
-      document.getElementById('cardAutogestion').classList.add('show');
-      document.getElementById('cardPremium').classList.add('show');
+<script>
+  // Menu hamburguesa
+  const menuBtn = document.getElementById('menuBtn');
+  const navMenu = document.getElementById('navMenu');
+  menuBtn.addEventListener('click', () => {
+    navMenu.classList.toggle('hidden');
+  });
+
+  // Animación fade-in
+  const fadeEls = document.querySelectorAll('.fade-in');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting) {
+        entry.target.classList.add('show');
+      }
     });
+  }, { threshold: 0.2 });
+  fadeEls.forEach(el => observer.observe(el));
 
-    // Modal Premium
-    function abrirModal() { document.getElementById('modalPremium').classList.remove('hidden'); }
-    function cerrarModal() { document.getElementById('modalPremium').classList.add('hidden'); }
+  // Mostrar formulario autogestión
+  function mostrarFormulario() {
+    document.getElementById('formulario').classList.remove('hidden');
+    window.scrollTo({ top: document.getElementById('formulario').offsetTop - 50, behavior: 'smooth' });
+  }
 
-    // Generar cartas autogestión (simulado)
-    function generarCartas() {
-      const cartas = `
-        <div class="p-6 bg-gray-100 rounded-xl shadow-md">
-          <h4 class="font-bold mb-2">Carta para deuda prescripta</h4>
-          <pre>Estimado [Entidad], solicito la eliminación de la deuda prescripta [detalle] conforme Ley 25.326.</pre>
-        </div>
-        <div class="p-6 bg-gray-100 rounded-xl shadow-md">
-          <h4 class="font-bold mb-2">Carta para deuda pagada</h4>
-          <pre>Estimado [Entidad], solicito actualizar mi historial indicando que la deuda [detalle] fue saldada.</pre>
-        </div>
-      `;
-      document.getElementById('cartasContenido').innerHTML = cartas;
-      document.getElementById('cartas').classList.remove('hidden');
-      window.location.href = "#cartas";
-    }
-  </script>
+  // Simulación cartas personalizadas
+  document.getElementById('formCartas')?.addEventListener('submit', function(e){
+    e.preventDefault();
+    const nombre = document.getElementById('nombre').value;
+    const deudas = document.getElementById('deudas').value;
+    const cartas = `
+      <div class="p-6 bg-gray-100 rounded-xl shadow-md">
+        <h4 class="font-bold mb-2">Carta para deuda prescripta</h4>
+        <pre>Estimado [Entidad], soy ${nombre}. Solicito la eliminación de la deuda prescripta ${deudas} conforme Ley 25.326.</pre>
+      </div>
+      <div class="p-6 bg-gray-100 rounded-xl shadow-md">
+        <h4 class="font-bold mb-2">Carta para deuda pagada</h4>
+        <pre>Estimado [Entidad], soy ${nombre}. Solicito actualizar mi historial indicando que la deuda ${deudas} fue saldada.</pre>
+      </div>
+    `;
+    document.getElementById('resultadoCartas').innerHTML = cartas;
+  });
+</script>
 
 </body>
 </html>
