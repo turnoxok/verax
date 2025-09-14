@@ -1,105 +1,102 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TuVerax - Rehabilitación Crediticia</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TuVerax - Rehabilitación Crediticia</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .gradient-bg { background: linear-gradient(135deg, #6D5BFF, #3ACFD5); }
+    .card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+    .card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.15); }
+  </style>
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans">
+<body class="bg-gray-100 text-gray-800">
 
-    <!-- Header -->
-    <header class="bg-blue-700 text-white py-6 shadow-lg">
-        <div class="container mx-auto flex justify-between items-center px-4">
-            <h1 class="text-3xl font-bold">TuVerax</h1>
-            <nav>
-                <a href="#autogestion" class="px-4 hover:underline">Autogestión</a>
-                <a href="#premium" class="px-4 hover:underline">Servicio Premium</a>
-                <a href="#contacto" class="px-4 hover:underline">Contacto</a>
-            </nav>
-        </div>
-    </header>
+  <!-- Header -->
+  <header class="fixed w-full z-50 gradient-bg text-white shadow-lg">
+    <div class="container mx-auto flex justify-between items-center py-4 px-6">
+      <h1 class="text-2xl font-bold tracking-wide">TuVerax</h1>
+      <nav class="space-x-6 text-lg">
+        <a href="#autogestion" class="hover:underline">Autogestión</a>
+        <a href="#premium" class="hover:underline">Premium</a>
+        <a href="#contacto" class="hover:underline">Contacto</a>
+      </nav>
+    </div>
+  </header>
 
-    <!-- Hero -->
-    <section class="bg-blue-100 py-16">
-        <div class="container mx-auto px-4 text-center">
-            <h2 class="text-4xl font-bold mb-4">Recupera tu historial crediticio con TuVerax</h2>
-            <p class="text-lg mb-6">Accede a tus derechos de Habeas Data, elimina deudas prescriptas o ya pagadas y mejora tu historial financiero.</p>
-            <a href="#autogestion" class="bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-800 transition">Comenzar Gratis</a>
-        </div>
-    </section>
+  <!-- Hero -->
+  <section class="h-screen flex items-center justify-center text-center px-6 pt-24">
+    <div>
+      <h2 class="text-5xl md:text-6xl font-bold mb-6 text-gray-900">Recupera tu historial crediticio</h2>
+      <p class="text-xl md:text-2xl text-gray-700 mb-8">Conoce tus derechos, elimina deudas y accede al crédito con inteligencia.</p>
+      <a href="#autogestion" class="inline-block bg-white text-gradient font-semibold px-8 py-4 rounded-xl shadow-lg hover:scale-105 transition transform">
+        Comenzar Gratis
+      </a>
+    </div>
+  </section>
 
-    <!-- Sección Autogestión -->
-    <section id="autogestion" class="py-16">
-        <div class="container mx-auto px-4">
-            <h3 class="text-3xl font-bold mb-6">Autogestión Gratuita</h3>
-            <p class="mb-4">Si deseas hacerlo por tu cuenta, TuVerax te proporciona:</p>
-            <ul class="list-disc list-inside mb-6 space-y-2">
-                <li>Instrucciones paso a paso para gestionar tus reclamos.</li>
-                <li>Cartas automáticas para deudas prescriptas o pagadas.</li>
-                <li>Explicación sobre bases de riesgo y cómo funcionan las entidades financieras.</li>
-                <li>Todo el conocimiento necesario para limpiar tu historial crediticio sin pagar nada.</li>
-            </ul>
-            <a href="#formulario" class="bg-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition">Generar Mis Cartas</a>
-        </div>
-    </section>
+  <!-- Sección Cards Autogestión / Premium -->
+  <section class="py-24">
+    <div class="container mx-auto px-6 grid md:grid-cols-2 gap-12">
+      
+      <!-- Card Autogestión -->
+      <div class="card bg-white p-10 rounded-3xl shadow-xl">
+        <h3 class="text-3xl font-bold mb-4">Autogestión Gratuita</h3>
+        <p class="mb-6 text-gray-600">Genera tus cartas y sigue los pasos para limpiar tu historial sin pagar nada.</p>
+        <ul class="mb-6 space-y-2 text-gray-700 list-inside list-disc">
+          <li>Cartas automáticas para deudas prescriptas o pagadas</li>
+          <li>Guía paso a paso para reclamos</li>
+          <li>Explicación sobre bases de riesgo y entidades financieras</li>
+        </ul>
+        <a href="#formulario" class="bg-gradient-to-r from-purple-600 to-cyan-400 text-white font-semibold px-6 py-3 rounded-xl hover:scale-105 transition transform inline-block">
+          Generar Mis Cartas
+        </a>
+      </div>
 
-    <!-- Sección Premium -->
-    <section id="premium" class="bg-gray-100 py-16">
-        <div class="container mx-auto px-4">
-            <h3 class="text-3xl font-bold mb-6">Servicio Premium</h3>
-            <p class="mb-4">Si quieres que un asesor haga todo por vos, el Servicio Premium incluye:</p>
-            <ul class="list-disc list-inside mb-6 space-y-2">
-                <li>Análisis completo de tu historial crediticio.</li>
-                <li>Generación y envío de reclamos a todas las entidades.</li>
-                <li>Seguimiento de respuestas y apelaciones si es necesario.</li>
-                <li>Informes comerciales completos y evaluación de posibilidad de crédito.</li>
-                <li>Plan personalizado de rehabilitación financiera.</li>
-            </ul>
-            <p class="text-red-600 font-semibold mb-4">Pago por adelantado. Solo los usuarios que eligen Premium acceden a este servicio.</p>
-            <a href="#contacto" class="bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-800 transition">Contratar Servicio Premium</a>
-        </div>
-    </section>
+      <!-- Card Servicio Premium -->
+      <div class="card bg-gradient-to-r from-purple-600 to-cyan-400 text-white p-10 rounded-3xl shadow-xl">
+        <h3 class="text-3xl font-bold mb-4">Servicio Premium</h3>
+        <p class="mb-6">Un asesor hace todo por vos: análisis, reclamos, informes comerciales y evaluación de crédito.</p>
+        <ul class="mb-6 space-y-2 list-inside list-disc">
+          <li>Análisis completo de tu historial financiero</li>
+          <li>Envío y seguimiento de reclamos</li>
+          <li>Informes comerciales completos y evaluación de posibilidad de crédito</li>
+          <li>Plan personalizado de rehabilitación financiera</li>
+        </ul>
+        <p class="font-semibold text-yellow-200 mb-4">Pago por adelantado. Solo acceso Premium.</p>
+        <a href="#contacto" class="bg-white text-purple-700 font-semibold px-6 py-3 rounded-xl hover:scale-105 transition transform inline-block">
+          Contratar Premium
+        </a>
+      </div>
 
-    <!-- Sección de contacto / formulario -->
-    <section id="contacto" class="py-16">
-        <div class="container mx-auto px-4">
-            <h3 class="text-3xl font-bold mb-6">Contacto / Formulario</h3>
-            <form class="max-w-lg mx-auto bg-white p-8 shadow-lg rounded-lg space-y-4">
-                <div>
-                    <label class="block mb-1 font-semibold">Nombre</label>
-                    <input type="text" placeholder="Tu nombre" class="w-full border border-gray-300 rounded px-3 py-2">
-                </div>
-                <div>
-                    <label class="block mb-1 font-semibold">Correo</label>
-                    <input type="email" placeholder="correo@ejemplo.com" class="w-full border border-gray-300 rounded px-3 py-2">
-                </div>
-                <div>
-                    <label class="block mb-1 font-semibold">Teléfono</label>
-                    <input type="tel" placeholder="01112345678" class="w-full border border-gray-300 rounded px-3 py-2">
-                </div>
-                <div>
-                    <label class="block mb-1 font-semibold">Opción</label>
-                    <select class="w-full border border-gray-300 rounded px-3 py-2">
-                        <option value="autogestion">Autogestión Gratuita</option>
-                        <option value="premium">Servicio Premium</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block mb-1 font-semibold">Mensaje / Detalles</label>
-                    <textarea placeholder="Agrega tus deudas y detalles aquí" class="w-full border border-gray-300 rounded px-3 py-2" rows="4"></textarea>
-                </div>
-                <button type="submit" class="bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-800 transition w-full">Enviar</button>
-            </form>
-        </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- Footer -->
-    <footer class="bg-blue-700 text-white py-6 mt-16">
-        <div class="container mx-auto px-4 text-center">
-            <p>© 2025 TuVerax - Todos los derechos reservados.</p>
-        </div>
-    </footer>
+  <!-- Contacto / Formulario -->
+  <section id="contacto" class="py-24 bg-gray-50">
+    <div class="container mx-auto px-6 max-w-3xl">
+      <h3 class="text-3xl font-bold mb-6 text-center">Contacto / Formulario</h3>
+      <form class="bg-white p-10 rounded-3xl shadow-xl space-y-6">
+        <input type="text" placeholder="Nombre completo" class="w-full p-4 rounded-xl border border-gray-300 focus:ring-2 focus:ring-purple-400 focus:outline-none">
+        <input type="email" placeholder="Correo electrónico" class="w-full p-4 rounded-xl border border-gray-300 focus:ring-2 focus:ring-purple-400 focus:outline-none">
+        <input type="tel" placeholder="Teléfono" class="w-full p-4 rounded-xl border border-gray-300 focus:ring-2 focus:ring-purple-400 focus:outline-none">
+        <select class="w-full p-4 rounded-xl border border-gray-300 focus:ring-2 focus:ring-purple-400 focus:outline-none">
+          <option value="autogestion">Autogestión Gratuita</option>
+          <option value="premium">Servicio Premium</option>
+        </select>
+        <textarea placeholder="Mensaje / Detalles de deudas" rows="4" class="w-full p-4 rounded-xl border border-gray-300 focus:ring-2 focus:ring-purple-400 focus:outline-none"></textarea>
+        <button type="submit" class="w-full bg-gradient-to-r from-purple-600 to-cyan-400 text-white font-bold py-4 rounded-xl hover:scale-105 transition transform">Enviar</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-white py-12 text-center">
+    <p>© 2025 TuVerax. Todos los derechos reservados.</p>
+  </footer>
 
 </body>
 </html>
