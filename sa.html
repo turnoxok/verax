@@ -30,12 +30,14 @@
     <p><b>Usuario:</b> <span id="username"></span></p>
     <p><b>Correo virtual:</b> <span id="userEmail"></span></p>
 
-    <label>📄 DNI Frente</label>
-    <input type="file" id="dniFrente" accept="image/*">
-    <label>📄 DNI Dorso</label>
-    <input type="file" id="dniDorso" accept="image/*">
+    <div id="formulario">
+      <label>📄 DNI Frente</label>
+      <input type="file" id="dniFrente" accept="image/*">
+      <label>📄 DNI Dorso</label>
+      <input type="file" id="dniDorso" accept="image/*">
 
-    <button id="sendBtn">📤 Enviar Solicitud</button>
+      <button id="sendBtn">📤 Enviar Solicitud</button>
+    </div>
 
     <div id="result" class="summary" style="display:none;"></div>
   </div>
@@ -51,7 +53,29 @@
     const userEmail = `${username}@${domain}`;
     document.getElementById("userEmail").innerText = userEmail;
 
-    // Botón de envío simulado
+    const resultDiv = document.getElementById("result");
+    const formDiv = document.getElementById("formulario");
+
+    // Función para renderizar resumen
+    function mostrarResumen(solicitud) {
+      resultDiv.style.display = "block";
+      resultDiv.innerHTML = `
+        <h3>✅ Solicitud enviada</h3>
+        <p><b>Fecha:</b> ${solicitud.fecha}</p>
+        <p><b>Archivos:</b> ${solicitud.archivos.frente}, ${solicitud.archivos.dorso}</p>
+        <p><b>Estado:</b> ${solicitud.estado}</p>
+      `;
+    }
+
+    // Revisar si ya existe solicitud previa en localStorage
+    const stored = localStorage.getItem(`sa_${username}`);
+    if (stored) {
+      const solicitudGuardada = JSON.parse(stored);
+      formDiv.style.display = "none"; // ocultamos formulario
+      mostrarResumen(solicitudGuardada);
+    }
+
+    // Enviar nueva solicitud
     document.getElementById("sendBtn").addEventListener("click", () => {
       const frente = document.getElementById("dniFrente").files[0];
       const dorso = document.getElementById("dniDorso").files[0];
@@ -61,7 +85,6 @@
         return;
       }
 
-      // Crear objeto de solicitud
       const solicitud = {
         username,
         email: userEmail,
@@ -74,18 +97,12 @@
         estado: "Pendiente de procesamiento"
       };
 
-      // Guardar en localStorage bajo la clave "sa_username"
+      // Guardar en localStorage
       localStorage.setItem(`sa_${username}`, JSON.stringify(solicitud));
 
-      // Mostrar resumen
-      const resDiv = document.getElementById("result");
-      resDiv.style.display = "block";
-      resDiv.innerHTML = `
-        <h3>✅ Solicitud enviada</h3>
-        <p><b>Fecha:</b> ${solicitud.fecha}</p>
-        <p><b>Archivos:</b> ${solicitud.archivos.frente}, ${solicitud.archivos.dorso}</p>
-        <p><b>Estado:</b> ${solicitud.estado}</p>
-      `;
+      // Mostrar y ocultar formulario
+      formDiv.style.display = "none";
+      mostrarResumen(solicitud);
     });
   </script>
 </body>
