@@ -9,8 +9,10 @@
   <style>
     body { font-family: 'Inter', sans-serif; }
     .gradient-bg { background: linear-gradient(135deg, #6D5BFF, #3ACFD5); }
-    .card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+    .card { transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.5s; opacity: 0; }
+    .card.show { opacity: 1; transform: translateY(0); }
     .card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.15); }
+    .modal-bg { background: rgba(0,0,0,0.6); }
   </style>
 </head>
 <body class="bg-gray-100 text-gray-800">
@@ -29,7 +31,7 @@
 
   <!-- Hero -->
   <section class="h-screen flex items-center justify-center text-center px-6 pt-24">
-    <div>
+    <div class="animate-fadeIn">
       <h2 class="text-5xl md:text-6xl font-bold mb-6 text-gray-900">Recupera tu historial crediticio</h2>
       <p class="text-xl md:text-2xl text-gray-700 mb-8">Conoce tus derechos, elimina deudas y accede al crédito con inteligencia.</p>
       <a href="#autogestion" class="inline-block bg-white text-gradient font-semibold px-8 py-4 rounded-xl shadow-lg hover:scale-105 transition transform">
@@ -43,7 +45,7 @@
     <div class="container mx-auto px-6 grid md:grid-cols-2 gap-12">
       
       <!-- Card Autogestión -->
-      <div class="card bg-white p-10 rounded-3xl shadow-xl">
+      <div class="card bg-white p-10 rounded-3xl shadow-xl" id="cardAutogestion">
         <h3 class="text-3xl font-bold mb-4">Autogestión Gratuita</h3>
         <p class="mb-6 text-gray-600">Genera tus cartas y sigue los pasos para limpiar tu historial sin pagar nada.</p>
         <ul class="mb-6 space-y-2 text-gray-700 list-inside list-disc">
@@ -51,13 +53,13 @@
           <li>Guía paso a paso para reclamos</li>
           <li>Explicación sobre bases de riesgo y entidades financieras</li>
         </ul>
-        <a href="#formulario" class="bg-gradient-to-r from-purple-600 to-cyan-400 text-white font-semibold px-6 py-3 rounded-xl hover:scale-105 transition transform inline-block">
+        <button onclick="generarCartas()" class="bg-gradient-to-r from-purple-600 to-cyan-400 text-white font-semibold px-6 py-3 rounded-xl hover:scale-105 transition transform inline-block">
           Generar Mis Cartas
-        </a>
+        </button>
       </div>
 
       <!-- Card Servicio Premium -->
-      <div class="card bg-gradient-to-r from-purple-600 to-cyan-400 text-white p-10 rounded-3xl shadow-xl">
+      <div class="card bg-gradient-to-r from-purple-600 to-cyan-400 text-white p-10 rounded-3xl shadow-xl" id="cardPremium">
         <h3 class="text-3xl font-bold mb-4">Servicio Premium</h3>
         <p class="mb-6">Un asesor hace todo por vos: análisis, reclamos, informes comerciales y evaluación de crédito.</p>
         <ul class="mb-6 space-y-2 list-inside list-disc">
@@ -67,11 +69,30 @@
           <li>Plan personalizado de rehabilitación financiera</li>
         </ul>
         <p class="font-semibold text-yellow-200 mb-4">Pago por adelantado. Solo acceso Premium.</p>
-        <a href="#contacto" class="bg-white text-purple-700 font-semibold px-6 py-3 rounded-xl hover:scale-105 transition transform inline-block">
+        <button onclick="abrirModal()" class="bg-white text-purple-700 font-semibold px-6 py-3 rounded-xl hover:scale-105 transition transform inline-block">
           Contratar Premium
-        </a>
+        </button>
       </div>
 
+    </div>
+  </section>
+
+  <!-- Modal Premium -->
+  <div id="modalPremium" class="hidden fixed inset-0 flex items-center justify-center modal-bg z-50">
+    <div class="bg-white rounded-3xl shadow-xl p-10 max-w-lg text-center">
+      <h3 class="text-2xl font-bold mb-4">Servicio Premium</h3>
+      <p class="mb-6">Incluye análisis completo de tu historial crediticio, generación de reclamos, informes comerciales y evaluación de crédito.</p>
+      <button onclick="cerrarModal()" class="bg-gradient-to-r from-purple-600 to-cyan-400 text-white px-6 py-3 rounded-xl font-semibold hover:scale-105 transition transform">
+        Entendido
+      </button>
+    </div>
+  </div>
+
+  <!-- Cartas Autogestión -->
+  <section id="cartas" class="py-24 hidden">
+    <div class="container mx-auto px-6 max-w-3xl">
+      <h3 class="text-3xl font-bold mb-6 text-center">Tus cartas generadas</h3>
+      <div id="cartasContenido" class="space-y-6 bg-white p-10 rounded-3xl shadow-xl"></div>
     </div>
   </section>
 
@@ -97,6 +118,36 @@
   <footer class="bg-gray-900 text-white py-12 text-center">
     <p>© 2025 TuVerax. Todos los derechos reservados.</p>
   </footer>
+
+  <!-- Scripts -->
+  <script>
+    // Animación cards al cargar
+    window.addEventListener('load', () => {
+      document.getElementById('cardAutogestion').classList.add('show');
+      document.getElementById('cardPremium').classList.add('show');
+    });
+
+    // Modal Premium
+    function abrirModal() { document.getElementById('modalPremium').classList.remove('hidden'); }
+    function cerrarModal() { document.getElementById('modalPremium').classList.add('hidden'); }
+
+    // Generar cartas autogestión (simulado)
+    function generarCartas() {
+      const cartas = `
+        <div class="p-6 bg-gray-100 rounded-xl shadow-md">
+          <h4 class="font-bold mb-2">Carta para deuda prescripta</h4>
+          <pre>Estimado [Entidad], solicito la eliminación de la deuda prescripta [detalle] conforme Ley 25.326.</pre>
+        </div>
+        <div class="p-6 bg-gray-100 rounded-xl shadow-md">
+          <h4 class="font-bold mb-2">Carta para deuda pagada</h4>
+          <pre>Estimado [Entidad], solicito actualizar mi historial indicando que la deuda [detalle] fue saldada.</pre>
+        </div>
+      `;
+      document.getElementById('cartasContenido').innerHTML = cartas;
+      document.getElementById('cartas').classList.remove('hidden');
+      window.location.href = "#cartas";
+    }
+  </script>
 
 </body>
 </html>
