@@ -33,6 +33,9 @@
       <a href="#autogestion" class="hover:underline">Autogestión</a>
       <a href="#premium" class="hover:underline">Premium</a>
       <a href="#nosotros" class="hover:underline">Nosotros</a>
+      <a href="#informes" class="hover:underline">Informes</a>
+      <a href="#faqs" class="hover:underline">FAQs</a>
+      <a href="#testimonios" class="hover:underline">Testimonios</a>
       <a href="#contacto" class="hover:underline">Contacto</a>
     </nav>
   </div>
@@ -48,7 +51,7 @@
 </section>
 
 <!-- Cards Autogestión / Premium -->
-<section class="py-24 container mx-auto px-6 grid md:grid-cols-2 gap-12">
+<section id="autogestion" class="py-24 container mx-auto px-6 grid md:grid-cols-2 gap-12">
   <div class="card bg-white p-10 rounded-3xl shadow-xl fade-in" data-delay="0.1s">
     <h3 class="text-3xl font-bold mb-4">Autogestión Gratuita</h3>
     <p class="mb-6 text-gray-600">Genera tus cartas y sigue los pasos para limpiar tu historial sin pagar nada.</p>
@@ -60,7 +63,7 @@
     <button onclick="mostrarFormulario()" class="bg-gradient-to-r from-purple-600 to-cyan-400 text-white font-semibold px-6 py-3 rounded-xl hover:scale-105 transition transform inline-block">Generar Mis Cartas</button>
   </div>
 
-  <div class="card bg-gradient-to-r from-purple-600 to-cyan-400 text-white p-10 rounded-3xl shadow-xl fade-in" data-delay="0.2s">
+  <div id="premium" class="card bg-gradient-to-r from-purple-600 to-cyan-400 text-white p-10 rounded-3xl shadow-xl fade-in" data-delay="0.2s">
     <h3 class="text-3xl font-bold mb-4">Servicio Premium</h3>
     <p class="mb-6">Un asesor hace todo por vos: análisis, reclamos, informes comerciales y evaluación de crédito.</p>
     <ul class="mb-6 space-y-2 list-inside list-disc">
@@ -93,6 +96,57 @@
   </div>
 </section>
 
+<!-- Sección Informes Comerciales -->
+<section id="informes" class="py-24 container mx-auto px-6">
+  <h3 class="text-3xl font-bold mb-12 text-center fade-in">Informes Comerciales</h3>
+  <div class="grid md:grid-cols-3 gap-8 fade-in">
+    <div class="bg-white p-8 rounded-3xl shadow-xl text-center">
+      <h4 class="font-bold mb-2">Score Crediticio</h4>
+      <p class="text-gray-700">Visualiza tu score actual y cómo impacta en tus posibilidades de crédito.</p>
+    </div>
+    <div class="bg-white p-8 rounded-3xl shadow-xl text-center">
+      <h4 class="font-bold mb-2">Historial de Deudas</h4>
+      <p class="text-gray-700">Consulta todas las deudas registradas y su estado en diferentes entidades.</p>
+    </div>
+    <div class="bg-white p-8 rounded-3xl shadow-xl text-center">
+      <h4 class="font-bold mb-2">Bases de Riesgo</h4>
+      <p class="text-gray-700">Conoce qué bases consulta cada entidad y cómo mejorar tu reputación financiera.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Sección FAQs -->
+<section id="faqs" class="py-24 bg-gray-50">
+  <div class="container mx-auto px-6 max-w-3xl text-center">
+    <h3 class="text-3xl font-bold mb-12 fade-in">Preguntas Frecuentes</h3>
+    <div class="space-y-6 fade-in">
+      <div>
+        <h4 class="font-semibold mb-2">¿Cuánto tarda en procesarse un reclamo?</h4>
+        <p class="text-gray-700">Depende de la entidad y la deuda, pero generalmente entre 30 y 60 días hábiles.</p>
+      </div>
+      <div>
+        <h4 class="font-semibold mb-2">¿Salir de Veraz garantiza crédito?</h4>
+        <p class="text-gray-700">No necesariamente. Cada entidad consulta distintas bases de riesgo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Sección Testimonios -->
+<section id="testimonios" class="py-24 container mx-auto px-6">
+  <h3 class="text-3xl font-bold mb-12 text-center fade-in">Testimonios</h3>
+  <div class="grid md:grid-cols-2 gap-8 fade-in">
+    <div class="bg-white p-8 rounded-3xl shadow-xl">
+      <p>"Gracias a TuVerax pude limpiar mi historial y acceder a crédito nuevamente. ¡Recomendado!"</p>
+      <p class="font-bold mt-4">- Ana P.</p>
+    </div>
+    <div class="bg-white p-8 rounded-3xl shadow-xl">
+      <p>"El servicio premium me ayudó a gestionar todo sin complicaciones. La IA es impresionante."</p>
+      <p class="font-bold mt-4">- Carlos M.</p>
+    </div>
+  </div>
+</section>
+
 <!-- Formulario Autogestión -->
 <section id="formulario" class="py-24 hidden">
   <div class="container mx-auto px-6 max-w-3xl">
@@ -116,18 +170,12 @@
   // Menu hamburguesa
   const menuBtn = document.getElementById('menuBtn');
   const navMenu = document.getElementById('navMenu');
-  menuBtn.addEventListener('click', () => {
-    navMenu.classList.toggle('hidden');
-  });
+  menuBtn.addEventListener('click', () => { navMenu.classList.toggle('hidden'); });
 
   // Animación fade-in
   const fadeEls = document.querySelectorAll('.fade-in');
   const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if(entry.isIntersecting) {
-        entry.target.classList.add('show');
-      }
-    });
+    entries.forEach(entry => { if(entry.isIntersecting) entry.target.classList.add('show'); });
   }, { threshold: 0.2 });
   fadeEls.forEach(el => observer.observe(el));
 
@@ -137,7 +185,7 @@
     window.scrollTo({ top: document.getElementById('formulario').offsetTop - 50, behavior: 'smooth' });
   }
 
-  // Simulación cartas personalizadas
+  // Simulación cartas personalizadas (backend OpenAI se integraría aquí)
   document.getElementById('formCartas')?.addEventListener('submit', function(e){
     e.preventDefault();
     const nombre = document.getElementById('nombre').value;
@@ -155,6 +203,5 @@
     document.getElementById('resultadoCartas').innerHTML = cartas;
   });
 </script>
-
 </body>
 </html>
