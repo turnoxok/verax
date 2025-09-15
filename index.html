@@ -34,23 +34,27 @@
 </header>
 
 <!-- Hero Parallax con IA -->
-<section id="hero" class="h-screen flex items-center justify-center text-center px-6 relative overflow-hidden" style="background-image: url('https://images.unsplash.com/photo-1557682250-0b9f3dbb6d90?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1600'); background-size: cover; background-position: center;">
-  <!-- Overlay oscuro -->
-  <div class="absolute inset-0 bg-black/50"></div>
+<section id="hero" class="h-screen relative overflow-hidden bg-gradient-to-br from-purple-700 to-cyan-500">
+  <!-- Partículas -->
+  <canvas id="particlesCanvas" class="absolute inset-0 w-full h-full"></canvas>
 
-  <!-- Contenido -->
-  <div class="relative z-10 text-white fade-in">
+  <!-- Overlay oscuro para contraste -->
+  <div class="absolute inset-0 bg-black/30"></div>
+
+  <!-- Contenido principal -->
+  <div class="relative z-10 text-center text-white flex flex-col items-center justify-center h-full">
     <h2 class="text-5xl md:text-6xl font-bold mb-6 hero-text">Recupera tu historial crediticio</h2>
-    <p class="text-xl md:text-2xl mb-8 hero-text">Tu asistente IA te guía paso a paso para limpiar tu historial y recuperar tu poder financiero.</p>
-    <div class="flex justify-center gap-6 hero-text">
+    <p class="text-xl md:text-2xl mb-8 hero-text max-w-xl">Tu asistente IA te guía paso a paso para limpiar tu historial y recuperar tu poder financiero.</p>
+    <div class="flex gap-6 hero-text">
       <button onclick="scrollToSection('autogestion')" class="ripple bg-gradient-to-r from-purple-600 to-cyan-400 px-6 py-3 rounded-xl font-semibold hover:scale-105 transition transform">Autogestión</button>
       <button onclick="scrollToSection('premium')" class="ripple bg-white text-purple-700 px-6 py-3 rounded-xl font-semibold hover:scale-105 transition transform">Premium IA</button>
     </div>
   </div>
 
   <!-- Avatar IA flotante -->
-  <img src="https://i.pravatar.cc/100?img=32" alt="IA Asistente" class="absolute top-16 right-16 w-24 h-24 avatar-ia hero-avatar shadow-lg">
+  <img src="https://i.pravatar.cc/100?img=32" alt="IA Asistente" class="absolute top-16 right-16 w-28 h-28 avatar-ia hero-avatar shadow-lg">
 </section>
+
 
 <!-- Cards Autogestión / Premium -->
 <section id="autogestion" class="py-24 container mx-auto px-6 grid md:grid-cols-2 gap-12">
