@@ -70,11 +70,11 @@
 <section class="h-screen flex items-center justify-center text-center px-6 relative overflow-hidden">
   <canvas id="hero-bg"></canvas>
   <div class="hero-content text-white">
-    <h2 class="text-5xl md:text-6xl font-bold mb-6">Recupera tu historial crediticio</h2>
-    <p class="text-xl md:text-2xl mb-8">Tu asistente IA te guía paso a paso para limpiar tu historial y recuperar tu poder financiero.</p>
+    <h2 class="text-5xl md:text-6xl font-bold mb-6">Recupera tu crédito.</h2>
+    <p class="text-xl md:text-2xl mb-8">Elegí de que forma limpiar tu historial y recuperar tu poder financiero.</p>
     <div class="flex justify-center gap-6">
-      <a href="#autogestion" class="bg-gradient-to-r from-purple-600 to-pink-500 px-6 py-3 rounded-xl font-semibold hover:scale-105 transition">Autogestión</a>
-      <a href="#premium" class="bg-white text-purple-700 px-6 py-3 rounded-xl font-semibold hover:scale-105 transition">Premium IA</a>
+      <a href="#autogestion" class="bg-gradient-to-r from-purple-600 to-pink-500 px-6 py-3 rounded-xl font-semibold hover:scale-105 transition">Autogestión IA</a>
+      <a href="#premium" class="bg-white text-purple-700 px-6 py-3 rounded-xl font-semibold hover:scale-105 transition">Un Experto</a>
     </div>
   </div>
 </section>
@@ -82,30 +82,32 @@
 <!-- Autogestión & Premium -->
 <section id="autogestion" class="py-24 container mx-auto px-6 grid md:grid-cols-2 gap-12">
   <div class="card bg-gray-800 p-10 rounded-3xl shadow-xl fade-in">
-    <h3 class="text-3xl font-bold mb-4">Autogestión</h3>
-    <p class="mb-6 text-gray-300">Simula lo que podrás hacer cuando accedas a tus informes.</p>
+    <h3 class="text-3xl font-bold mb-4">Autogestión IA</h3>
+    <p class="mb-6 text-gray-300">Hacelo vos mismo en forma gratuita con ayuda de IA.</p>
     <ul class="mb-6 space-y-2 text-gray-400 list-disc list-inside">
-      <li>Ver tus deudas en diferentes bases</li>
-      <li>Aprender cómo hacer reclamos legales</li>
-      <li>Simulaciones de cartas e informes</li>
+      <li>Accedé gratis a tus informes comerciales</li>
+      <li>Hace reclamos ante Veraz si corresponde</li>
+      <li>Textos predeterminados te ayudaran a salir de Veraz y otras Bases de informacion crediticia</li>
+      <a href="#premium" class="bg-white text-purple-700 px-6 py-3 rounded-xl font-semibold hover:scale-105 transition">Comenzar</a>
     </ul>
   </div>
 
   <div id="premium" class="card bg-gradient-to-r from-purple-600 to-pink-500 text-white p-10 rounded-3xl shadow-xl fade-in">
-    <h3 class="text-3xl font-bold mb-4">Premium IA</h3>
-    <p class="mb-6">Tu asistente IA hace todo por vos: analiza, explica y guía.</p>
+    <h3 class="text-3xl font-bold mb-4">Un Experto</h3>
+    <p class="mb-6">Prefiero que lo hagan por mi (con costo)</p>
     <ul class="mb-6 space-y-2 list-disc list-inside">
-      <li>IA explica cómo generar cartas correctamente</li>
-      <li>Simula informes comerciales avanzados</li>
+      <li>Informes comerciales</li>
+      <li>Reclamo ante Veraz y otras Bases de informacion crediticia</li>
       <li>Evaluación de posibilidad de crédito</li>
-      <li>Seguimiento de reclamos automatizado</li>
+      <li>Seguimiento de reclamos</li>
+      <a href="#autogestion" class="bg-gradient-to-r from-purple-600 to-pink-500 px-6 py-3 rounded-xl font-semibold hover:scale-105 transition">Comenzar</a>
     </ul>
   </div>
 </section>
 
 <!-- Dashboard -->
 <section id="informes" class="py-24 bg-gray-900 text-center">
-  <h3 class="text-3xl font-bold mb-12 fade-in">Simulación de Dashboard</h3>
+  <h3 class="text-3xl font-bold mb-12 fade-in">Recupera tu salud crediticia</h3>
   <div class="grid md:grid-cols-3 gap-8 container mx-auto px-6 fade-in">
     <div class="bg-gray-800 p-8 rounded-3xl shadow-xl">
       <h4 class="font-bold mb-2">Score Crediticio</h4>
@@ -116,11 +118,11 @@
     </div>
     <div class="bg-gray-800 p-8 rounded-3xl shadow-xl">
       <h4 class="font-bold mb-2">Bases de Riesgo</h4>
-      <p>Veraz, Nosis, Equifax</p>
+      <p>Veraz, Nosis, BCRA</p>
     </div>
     <div class="bg-gray-800 p-8 rounded-3xl shadow-xl">
-      <h4 class="font-bold mb-2">Usuarios que generaron cartas</h4>
-      <p class="text-3xl font-bold" id="usuariosCounter">0</p>
+      <h4 class="font-bold mb-2">Usuarios que recuperaron su crédito</h4>
+      <p class="text-3xl font-bold" id="usuariosCounter">368</p>
     </div>
   </div>
 </section>
