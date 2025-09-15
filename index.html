@@ -7,16 +7,23 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-  body { font-family: 'Inter', sans-serif; }
+  body { font-family: 'Inter', sans-serif; overflow-x: hidden; background: #0f0f1e; color: #fff; }
   .gradient-bg { background: linear-gradient(135deg, #6D5BFF, #3ACFD5); }
   .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 1s ease, transform 1s ease; }
   .fade-in.show { opacity: 1; transform: translateY(0); }
   .parallax { background-attachment: fixed; background-size: cover; background-position: center; }
   .card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
-  .card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.15); }
+  .card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+  .avatar-ia { animation: float 3s ease-in-out infinite; border: 4px solid #fff; border-radius: 50%; }
+  @keyframes float { 0%,100% { transform: translateY(0);} 50% { transform: translateY(-10px);} }
+  .scroll-smooth { scroll-behavior: smooth; }
+  .ripple { position: relative; overflow: hidden; }
+  .ripple::after { content: ""; position: absolute; width: 100px; height: 100px; background: rgba(255,255,255,0.4); display: block; border-radius: 50%; transform: scale(0); opacity: 0; pointer-events: none; transition: transform 0.5s, opacity 1s; }
+  .ripple:active::after { transform: scale(4); opacity: 1; transition: 0s; }
+  .indicator { font-size: 2rem; font-weight: bold; color: #3ACFD5; }
 </style>
 </head>
-<body class="bg-gray-100 text-gray-800">
+<body class="scroll-smooth">
 
 <!-- Header -->
 <header class="fixed w-full z-50 gradient-bg text-white shadow-lg">
@@ -41,128 +48,130 @@
   </div>
 </header>
 
-<!-- Hero con parallax -->
-<section class="h-screen flex items-center justify-center text-center px-6 parallax" style="background-image: url('https://images.unsplash.com/photo-1557682250-0b9f3dbb6d90?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&q=80&w=1600');">
-  <div class="text-white bg-black/40 p-8 rounded-xl fade-in" id="heroText">
+<!-- Hero Parallax con IA -->
+<section class="h-screen flex items-center justify-center text-center px-6 parallax relative" style="background-image: url('https://images.unsplash.com/photo-1557682250-0b9f3dbb6d90?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1600');">
+  <div class="text-white bg-black/50 p-8 rounded-xl fade-in relative z-10">
     <h2 class="text-5xl md:text-6xl font-bold mb-6">Recupera tu historial crediticio</h2>
-    <p class="text-xl md:text-2xl mb-8">Conoce tus derechos, elimina deudas y accede al crédito con inteligencia.</p>
-    <a href="#autogestion" class="bg-gradient-to-r from-purple-600 to-cyan-400 px-8 py-4 rounded-xl font-semibold hover:scale-105 transition transform">Comenzar Gratis</a>
+    <p class="text-xl md:text-2xl mb-8">Tu asistente IA te guía paso a paso para limpiar tu historial y recuperar tu poder financiero.</p>
+    <div class="flex justify-center gap-6">
+      <button onclick="scrollToSection('autogestion')" class="ripple bg-gradient-to-r from-purple-600 to-cyan-400 px-6 py-3 rounded-xl font-semibold hover:scale-105 transition transform">Autogestión</button>
+      <button onclick="scrollToSection('premium')" class="ripple bg-white text-purple-700 px-6 py-3 rounded-xl font-semibold hover:scale-105 transition transform">Premium IA</button>
+    </div>
   </div>
+  <img src="https://i.pravatar.cc/100?img=32" alt="IA Asistente" class="absolute top-16 right-16 w-24 h-24 avatar-ia shadow-lg">
 </section>
 
 <!-- Cards Autogestión / Premium -->
 <section id="autogestion" class="py-24 container mx-auto px-6 grid md:grid-cols-2 gap-12">
-  <div class="card bg-white p-10 rounded-3xl shadow-xl fade-in" data-delay="0.1s">
-    <h3 class="text-3xl font-bold mb-4">Autogestión Gratuita</h3>
-    <p class="mb-6 text-gray-600">Genera tus cartas y sigue los pasos para limpiar tu historial sin pagar nada.</p>
-    <ul class="mb-6 space-y-2 text-gray-700 list-inside list-disc">
-      <li>Cartas automáticas personalizadas con IA</li>
-      <li>Guía paso a paso para reclamos</li>
-      <li>Explicación sobre bases de riesgo y entidades financieras</li>
+  <div class="card bg-gray-800 p-10 rounded-3xl shadow-xl fade-in">
+    <h3 class="text-3xl font-bold mb-4">Autogestión</h3>
+    <p class="mb-6 text-gray-300">Simula lo que podrás hacer cuando accedas a tus informes.</p>
+    <ul class="mb-6 space-y-2 text-gray-400 list-disc list-inside">
+      <li>Ver tus deudas en diferentes bases</li>
+      <li>Aprender cómo hacer reclamos legales</li>
+      <li>Simulaciones de cartas e informes</li>
     </ul>
-    <button onclick="mostrarFormulario()" class="bg-gradient-to-r from-purple-600 to-cyan-400 text-white font-semibold px-6 py-3 rounded-xl hover:scale-105 transition transform inline-block">Generar Mis Cartas</button>
-  </div>
-
-  <div id="premium" class="card bg-gradient-to-r from-purple-600 to-cyan-400 text-white p-10 rounded-3xl shadow-xl fade-in" data-delay="0.2s">
-    <h3 class="text-3xl font-bold mb-4">Servicio Premium</h3>
-    <p class="mb-6">Un asesor hace todo por vos: análisis, reclamos, informes comerciales y evaluación de crédito.</p>
-    <ul class="mb-6 space-y-2 list-inside list-disc">
-      <li>Análisis completo de tu historial financiero</li>
-      <li>Envío y seguimiento de reclamos</li>
-      <li>Informes comerciales completos y evaluación de posibilidad de crédito</li>
-      <li>Plan personalizado de rehabilitación financiera</li>
-    </ul>
-    <p class="font-semibold text-yellow-200 mb-4">Pago por adelantado. Solo acceso Premium.</p>
-    <button onclick="abrirModal()" class="bg-white text-purple-700 font-semibold px-6 py-3 rounded-xl hover:scale-105 transition transform inline-block">Contratar Premium</button>
-  </div>
-</section>
-
-<!-- Sección Nosotros -->
-<section id="nosotros" class="py-24 bg-gray-50">
-  <div class="container mx-auto px-6 max-w-4xl text-center">
-    <h3 class="text-3xl font-bold mb-12 fade-in">Sobre Nosotros</h3>
-    <div class="grid md:grid-cols-2 gap-12 items-center">
-      <div class="bg-white p-8 rounded-3xl shadow-xl fade-in">
-        <img src="https://i.pravatar.cc/150?img=12" alt="Ronaldo Martínez" class="w-32 h-32 mx-auto rounded-full mb-4">
-        <h4 class="font-bold text-xl mb-2">Ronaldo Martínez</h4>
-        <p class="text-gray-700">Fundador de TuVerax. Mi misión es que cada usuario recupere control sobre su historial financiero de manera transparente y segura.</p>
-      </div>
-      <div class="bg-gradient-to-r from-purple-600 to-cyan-400 text-white p-8 rounded-3xl shadow-xl fade-in">
-        <img src="https://i.pravatar.cc/150?img=32" alt="Asistente IA" class="w-32 h-32 mx-auto rounded-full mb-4 border-4 border-white">
-        <h4 class="font-bold text-xl mb-2">Asistente IA</h4>
-        <p>IA experta en derecho crediticio y protección de datos. Ayuda a generar cartas automáticas, analizar historial financiero y guiar al usuario paso a paso.</p>
-      </div>
+    <div class="bg-gray-700 p-4 rounded-xl mb-2">
+      <p class="mb-1">Ejemplo de carta prescripta:</p>
+      <pre class="bg-gray-900 p-2 rounded text-green-400 text-sm">[Entidad], solicito eliminar la deuda prescripta...</pre>
+    </div>
+    <div class="bg-gray-700 p-4 rounded-xl">
+      <p class="mb-1">Ejemplo de deuda pagada:</p>
+      <pre class="bg-gray-900 p-2 rounded text-green-400 text-sm">[Entidad], solicito actualizar mi historial indicando deuda saldada...</pre>
     </div>
   </div>
+
+  <div id="premium" class="card bg-gradient-to-r from-purple-600 to-cyan-400 text-white p-10 rounded-3xl shadow-xl fade-in">
+    <h3 class="text-3xl font-bold mb-4">Premium IA</h3>
+    <p class="mb-6">Tu asistente IA hace todo por vos: analiza, explica y guía.</p>
+    <ul class="mb-6 space-y-2 list-disc list-inside">
+      <li>IA explica cómo generar cartas correctamente</li>
+      <li>Simula informes comerciales avanzados</li>
+      <li>Evaluación de posibilidad de crédito</li>
+      <li>Seguimiento de reclamos automatizado</li>
+    </ul>
+    <button onclick="alert('Redirigir a pago Premium IA')" class="ripple bg-white text-purple-700 font-semibold px-6 py-3 rounded-xl hover:scale-105 transition transform">Acceder Premium</button>
+  </div>
 </section>
 
-<!-- Sección Informes Comerciales -->
-<section id="informes" class="py-24 container mx-auto px-6">
-  <h3 class="text-3xl font-bold mb-12 text-center fade-in">Informes Comerciales</h3>
-  <div class="grid md:grid-cols-3 gap-8 fade-in">
-    <div class="bg-white p-8 rounded-3xl shadow-xl text-center">
+<!-- Dashboard Simulado -->
+<section id="informes" class="py-24 bg-gray-900">
+  <h3 class="text-3xl font-bold mb-12 text-center fade-in">Simulación de Dashboard</h3>
+  <div class="grid md:grid-cols-3 gap-8 container mx-auto px-6 fade-in">
+    <div class="bg-gray-800 p-8 rounded-3xl shadow-xl text-center">
       <h4 class="font-bold mb-2">Score Crediticio</h4>
-      <p class="text-gray-700">Visualiza tu score actual y cómo impacta en tus posibilidades de crédito.</p>
+      <div class="bg-gray-700 h-4 rounded-full overflow-hidden">
+        <div class="bg-green-400 h-4 w-3/4"></div>
+      </div>
+      <p class="mt-2">750/900</p>
     </div>
-    <div class="bg-white p-8 rounded-3xl shadow-xl text-center">
-      <h4 class="font-bold mb-2">Historial de Deudas</h4>
-      <p class="text-gray-700">Consulta todas las deudas registradas y su estado en diferentes entidades.</p>
-    </div>
-    <div class="bg-white p-8 rounded-3xl shadow-xl text-center">
+    <div class="bg-gray-800 p-8 rounded-3xl shadow-xl text-center">
       <h4 class="font-bold mb-2">Bases de Riesgo</h4>
-      <p class="text-gray-700">Conoce qué bases consulta cada entidad y cómo mejorar tu reputación financiera.</p>
+      <p>Veraz, Nosis, Equifax</p>
+    </div>
+    <div class="bg-gray-800 p-8 rounded-3xl shadow-xl text-center">
+      <h4 class="font-bold mb-2">Deudas Simuladas</h4>
+      <ul class="text-gray-300 text-sm">
+        <li>Banco A - $10.000 - Prescripta</li>
+        <li>Banco B - $5.000 - Pagada</li>
+        <li>Entidad C - $2.500 - Reciente</li>
+      </ul>
+    </div>
+  </div>
+  <div class="text-center mt-8 fade-in">
+    <p>Usuarios que generaron cartas: <span class="indicator" id="usuariosCounter">1245</span></p>
+  </div>
+</section>
+
+<!-- Nosotros -->
+<section id="nosotros" class="py-24 container mx-auto px-6 text-center fade-in">
+  <h3 class="text-3xl font-bold mb-12">Sobre Nosotros</h3>
+  <div class="grid md:grid-cols-2 gap-12 items-center">
+    <div class="bg-gray-800 p-8 rounded-3xl shadow-xl">
+      <img src="https://i.pravatar.cc/150?img=12" alt="Ronaldo" class="w-32 h-32 mx-auto rounded-full mb-4">
+      <h4 class="font-bold text-xl mb-2">Ronaldo Martínez</h4>
+      <p>Fundador de TuVerax, guiando usuarios a recuperar su historial financiero.</p>
+    </div>
+    <div class="bg-gradient-to-r from-purple-600 to-cyan-400 p-8 rounded-3xl shadow-xl">
+      <img src="https://i.pravatar.cc/150?img=32" alt="IA Asistente" class="w-32 h-32 mx-auto rounded-full mb-4 avatar-ia">
+      <h4 class="font-bold text-xl mb-2">IA Asistente</h4>
+      <p>IA experta en derecho crediticio, protección de datos y generación de guías de reclamos.</p>
     </div>
   </div>
 </section>
 
-<!-- Sección FAQs -->
-<section id="faqs" class="py-24 bg-gray-50">
-  <div class="container mx-auto px-6 max-w-3xl text-center">
-    <h3 class="text-3xl font-bold mb-12 fade-in">Preguntas Frecuentes</h3>
-    <div class="space-y-6 fade-in">
-      <div>
-        <h4 class="font-semibold mb-2">¿Cuánto tarda en procesarse un reclamo?</h4>
-        <p class="text-gray-700">Depende de la entidad y la deuda, pero generalmente entre 30 y 60 días hábiles.</p>
-      </div>
-      <div>
-        <h4 class="font-semibold mb-2">¿Salir de Veraz garantiza crédito?</h4>
-        <p class="text-gray-700">No necesariamente. Cada entidad consulta distintas bases de riesgo.</p>
-      </div>
+<!-- FAQs -->
+<section id="faqs" class="py-24 bg-gray-900 container mx-auto px-6">
+  <h3 class="text-3xl font-bold mb-12 text-center fade-in">Preguntas Frecuentes</h3>
+  <div class="space-y-4 fade-in">
+    <div class="bg-gray-800 p-4 rounded-xl cursor-pointer faq-item">
+      <h4 class="font-semibold">¿Salir de Veraz garantiza crédito?</h4>
+      <p class="mt-2 text-gray-300 hidden">No necesariamente. Cada entidad consulta distintas bases de riesgo y políticas de crédito.</p>
+    </div>
+    <div class="bg-gray-800 p-4 rounded-xl cursor-pointer faq-item">
+      <h4 class="font-semibold">¿Cuánto tarda un reclamo?</h4>
+      <p class="mt-2 text-gray-300 hidden">Depende de la entidad y el tipo de deuda, generalmente 30-60 días hábiles.</p>
     </div>
   </div>
 </section>
 
-<!-- Sección Testimonios -->
-<section id="testimonios" class="py-24 container mx-auto px-6">
-  <h3 class="text-3xl font-bold mb-12 text-center fade-in">Testimonios</h3>
-  <div class="grid md:grid-cols-2 gap-8 fade-in">
-    <div class="bg-white p-8 rounded-3xl shadow-xl">
-      <p>"Gracias a TuVerax pude limpiar mi historial y acceder a crédito nuevamente. ¡Recomendado!"</p>
+<!-- Testimonios -->
+<section id="testimonios" class="py-24 container mx-auto px-6 fade-in">
+  <h3 class="text-3xl font-bold mb-12 text-center">Testimonios</h3>
+  <div class="grid md:grid-cols-2 gap-8">
+    <div class="bg-gray-800 p-8 rounded-3xl shadow-xl">
+      <p>"Gracias a TuVerax pude recuperar mi historial y acceder a crédito nuevamente."</p>
       <p class="font-bold mt-4">- Ana P.</p>
     </div>
-    <div class="bg-white p-8 rounded-3xl shadow-xl">
-      <p>"El servicio premium me ayudó a gestionar todo sin complicaciones. La IA es impresionante."</p>
+    <div class="bg-gray-800 p-8 rounded-3xl shadow-xl">
+      <p>"El servicio premium con IA me guió en todo y fue increíblemente sencillo."</p>
       <p class="font-bold mt-4">- Carlos M.</p>
     </div>
   </div>
 </section>
 
-<!-- Formulario Autogestión -->
-<section id="formulario" class="py-24 hidden">
-  <div class="container mx-auto px-6 max-w-3xl">
-    <h3 class="text-3xl font-bold mb-6 text-center fade-in">Genera tus cartas personalizadas</h3>
-    <form id="formCartas" class="bg-white p-10 rounded-3xl shadow-xl space-y-6 fade-in">
-      <input type="text" placeholder="Nombre completo" id="nombre" class="w-full p-4 rounded-xl border border-gray-300 focus:ring-2 focus:ring-purple-400 focus:outline-none" required>
-      <input type="email" placeholder="Correo electrónico" id="correo" class="w-full p-4 rounded-xl border border-gray-300 focus:ring-2 focus:ring-purple-400 focus:outline-none" required>
-      <textarea placeholder="Detalles de tus deudas (entidad, monto, estado, fecha)" id="deudas" rows="4" class="w-full p-4 rounded-xl border border-gray-300 focus:ring-2 focus:ring-purple-400 focus:outline-none" required></textarea>
-      <button type="submit" class="w-full bg-gradient-to-r from-purple-600 to-cyan-400 text-white font-bold py-4 rounded-xl hover:scale-105 transition transform">Generar Cartas</button>
-    </form>
-    <div id="resultadoCartas" class="mt-10 space-y-6"></div>
-  </div>
-</section>
-
 <!-- Footer -->
-<footer class="bg-gray-900 text-white py-12 text-center">
+<footer class="bg-gray-900 text-gray-400 py-12 text-center">
   <p>© 2025 TuVerax. Todos los derechos reservados.</p>
 </footer>
 
@@ -172,6 +181,11 @@
   const navMenu = document.getElementById('navMenu');
   menuBtn.addEventListener('click', () => { navMenu.classList.toggle('hidden'); });
 
+  // Scroll smooth para botones
+  function scrollToSection(id) {
+    document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
   // Animación fade-in
   const fadeEls = document.querySelectorAll('.fade-in');
   const observer = new IntersectionObserver(entries => {
@@ -179,29 +193,20 @@
   }, { threshold: 0.2 });
   fadeEls.forEach(el => observer.observe(el));
 
-  // Mostrar formulario autogestión
-  function mostrarFormulario() {
-    document.getElementById('formulario').classList.remove('hidden');
-    window.scrollTo({ top: document.getElementById('formulario').offsetTop - 50, behavior: 'smooth' });
-  }
-
-  // Simulación cartas personalizadas (backend OpenAI se integraría aquí)
-  document.getElementById('formCartas')?.addEventListener('submit', function(e){
-    e.preventDefault();
-    const nombre = document.getElementById('nombre').value;
-    const deudas = document.getElementById('deudas').value;
-    const cartas = `
-      <div class="p-6 bg-gray-100 rounded-xl shadow-md">
-        <h4 class="font-bold mb-2">Carta para deuda prescripta</h4>
-        <pre>Estimado [Entidad], soy ${nombre}. Solicito la eliminación de la deuda prescripta ${deudas} conforme Ley 25.326.</pre>
-      </div>
-      <div class="p-6 bg-gray-100 rounded-xl shadow-md">
-        <h4 class="font-bold mb-2">Carta para deuda pagada</h4>
-        <pre>Estimado [Entidad], soy ${nombre}. Solicito actualizar mi historial indicando que la deuda ${deudas} fue saldada.</pre>
-      </div>
-    `;
-    document.getElementById('resultadoCartas').innerHTML = cartas;
+  // FAQs interactivo
+  document.querySelectorAll('.faq-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const p = item.querySelector('p');
+      p.classList.toggle('hidden');
+    });
   });
+
+  // Simulación contador dinámico
+  let usuarios = 1245;
+  setInterval(() => {
+    usuarios += Math.floor(Math.random()*3);
+    document.getElementById('usuariosCounter').textContent = usuarios;
+  }, 3000);
 </script>
 </body>
 </html>
