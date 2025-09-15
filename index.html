@@ -5,27 +5,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TuVerax - Rehabilitación Crediticia</title>
 <script src="https://cdn.tailwindcss.com"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-body { font-family: 'Inter', sans-serif; overflow-x: hidden; background: #0f0f1e; color: #fff; }
-.gradient-bg { background: linear-gradient(135deg, #6D5BFF, #3ACFD5); }
-.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 1s ease, transform 1s ease; }
-.fade-in.show { opacity: 1; transform: translateY(0); }
-.parallax { background-attachment: fixed; background-size: cover; background-position: center; }
-.card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
-.card:hover { transform: translateY(-10px) scale(1.02); box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
-.avatar-ia { animation: float 3s ease-in-out infinite; border: 4px solid #fff; border-radius: 50%; }
-@keyframes float { 0%,100% { transform: translateY(0);} 50% { transform: translateY(-15px);} }
-.scroll-smooth { scroll-behavior: smooth; }
-.ripple { position: relative; overflow: hidden; }
-.ripple::after { content: ""; position: absolute; width: 100px; height: 100px; background: rgba(255,255,255,0.4); display: block; border-radius: 50%; transform: scale(0); opacity: 0; pointer-events: none; transition: transform 0.5s, opacity 1s; }
-.ripple:active::after { transform: scale(4); opacity: 1; transition: 0s; }
-.indicator { font-size: 2rem; font-weight: bold; color: #3ACFD5; }
-.float-card { position: absolute; transition: transform 0.3s ease, opacity 0.5s ease; cursor:pointer; }
-.float-card:hover { transform: translateY(-10px) rotate(-2deg) scale(1.05); }
-#iaFloatingBtn { position: fixed; bottom: 40px; right: 40px; z-index: 1000; background: #6D5BFF; border-radius: 50%; width: 70px; height: 70px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 10px 30px rgba(0,0,0,0.4); transition: transform 0.3s; }
-#iaFloatingBtn:hover { transform: scale(1.2); }
+  body { font-family: 'Inter', sans-serif; overflow-x: hidden; background: #0f0f1e; color: #fff; }
+  .gradient-bg { background: linear-gradient(135deg, #6D5BFF, #3ACFD5); }
+  .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 1s ease, transform 1s ease; }
+  .fade-in.show { opacity: 1; transform: translateY(0); }
+  .parallax { background-attachment: fixed; background-size: cover; background-position: center; }
+  .card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+  .card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+  .avatar-ia { animation: float 3s ease-in-out infinite; border: 4px solid #fff; border-radius: 50%; }
+  @keyframes float { 0%,100% { transform: translateY(0);} 50% { transform: translateY(-10px);} }
+  .scroll-smooth { scroll-behavior: smooth; }
+  .ripple { position: relative; overflow: hidden; }
+  .ripple::after { content: ""; position: absolute; width: 100px; height: 100px; background: rgba(255,255,255,0.4); display: block; border-radius: 50%; transform: scale(0); opacity: 0; pointer-events: none; transition: transform 0.5s, opacity 1s; }
+  .ripple:active::after { transform: scale(4); opacity: 1; transition: 0s; }
+  .indicator { font-size: 2rem; font-weight: bold; color: #3ACFD5; }
 </style>
 </head>
 <body class="scroll-smooth">
@@ -48,6 +43,7 @@ body { font-family: 'Inter', sans-serif; overflow-x: hidden; background: #0f0f1e
       <a href="#informes" class="hover:underline">Informes</a>
       <a href="#faqs" class="hover:underline">FAQs</a>
       <a href="#testimonios" class="hover:underline">Testimonios</a>
+      <a href="#contacto" class="hover:underline">Contacto</a>
     </nav>
   </div>
 </header>
@@ -62,13 +58,11 @@ body { font-family: 'Inter', sans-serif; overflow-x: hidden; background: #0f0f1e
       <button onclick="scrollToSection('premium')" class="ripple bg-white text-purple-700 px-6 py-3 rounded-xl font-semibold hover:scale-105 transition transform">Premium IA</button>
     </div>
   </div>
-  <img src="https://i.pravatar.cc/100?img=32" alt="IA Asistente" class="absolute top-16 right-16 w-28 h-28 avatar-ia shadow-lg">
-  <div class="float-card bg-gradient-to-r from-purple-600 to-cyan-400 p-4 rounded-xl shadow-xl" style="top:20%; left:10%; width:150px; opacity:0.9;">Score: 750</div>
-  <div class="float-card bg-gradient-to-r from-cyan-400 to-purple-600 p-4 rounded-xl shadow-xl" style="top:50%; right:15%; width:150px; opacity:0.9;">Deuda: $5000</div>
+  <img src="https://i.pravatar.cc/100?img=32" alt="IA Asistente" class="absolute top-16 right-16 w-24 h-24 avatar-ia shadow-lg">
 </section>
 
 <!-- Cards Autogestión / Premium -->
-<section id="autogestion" class="py-24 container mx-auto px-6 grid md:grid-cols-2 gap-12 relative">
+<section id="autogestion" class="py-24 container mx-auto px-6 grid md:grid-cols-2 gap-12">
   <div class="card bg-gray-800 p-10 rounded-3xl shadow-xl fade-in">
     <h3 class="text-3xl font-bold mb-4">Autogestión</h3>
     <p class="mb-6 text-gray-300">Simula lo que podrás hacer cuando accedas a tus informes.</p>
@@ -77,12 +71,21 @@ body { font-family: 'Inter', sans-serif; overflow-x: hidden; background: #0f0f1e
       <li>Aprender cómo hacer reclamos legales</li>
       <li>Simulaciones de cartas e informes</li>
     </ul>
+    <div class="bg-gray-700 p-4 rounded-xl mb-2">
+      <p class="mb-1">Ejemplo de carta prescripta:</p>
+      <pre class="bg-gray-900 p-2 rounded text-green-400 text-sm">[Entidad], solicito eliminar la deuda prescripta...</pre>
+    </div>
+    <div class="bg-gray-700 p-4 rounded-xl">
+      <p class="mb-1">Ejemplo de deuda pagada:</p>
+      <pre class="bg-gray-900 p-2 rounded text-green-400 text-sm">[Entidad], solicito actualizar mi historial indicando deuda saldada...</pre>
+    </div>
   </div>
+
   <div id="premium" class="card bg-gradient-to-r from-purple-600 to-cyan-400 text-white p-10 rounded-3xl shadow-xl fade-in">
     <h3 class="text-3xl font-bold mb-4">Premium IA</h3>
     <p class="mb-6">Tu asistente IA hace todo por vos: analiza, explica y guía.</p>
     <ul class="mb-6 space-y-2 list-disc list-inside">
-      <li>IA genera cartas automáticamente</li>
+      <li>IA explica cómo generar cartas correctamente</li>
       <li>Simula informes comerciales avanzados</li>
       <li>Evaluación de posibilidad de crédito</li>
       <li>Seguimiento de reclamos automatizado</li>
@@ -91,61 +94,119 @@ body { font-family: 'Inter', sans-serif; overflow-x: hidden; background: #0f0f1e
   </div>
 </section>
 
-<!-- Dashboard Simulado con Chart.js -->
-<section id="informes" class="py-24 bg-gray-900 relative fade-in">
-  <h3 class="text-3xl font-bold mb-12 text-center">Dashboard Interactivo</h3>
-  <div class="grid md:grid-cols-3 gap-8 container mx-auto px-6 relative">
-    <canvas id="scoreChart" class="bg-gray-800 p-4 rounded-3xl shadow-xl"></canvas>
-    <canvas id="deudasChart" class="bg-gray-800 p-4 rounded-3xl shadow-xl"></canvas>
-    <canvas id="basesChart" class="bg-gray-800 p-4 rounded-3xl shadow-xl"></canvas>
+<!-- Dashboard Simulado -->
+<section id="informes" class="py-24 bg-gray-900">
+  <h3 class="text-3xl font-bold mb-12 text-center fade-in">Simulación de Dashboard</h3>
+  <div class="grid md:grid-cols-3 gap-8 container mx-auto px-6 fade-in">
+    <div class="bg-gray-800 p-8 rounded-3xl shadow-xl text-center">
+      <h4 class="font-bold mb-2">Score Crediticio</h4>
+      <div class="bg-gray-700 h-4 rounded-full overflow-hidden">
+        <div class="bg-green-400 h-4 w-3/4"></div>
+      </div>
+      <p class="mt-2">750/900</p>
+    </div>
+    <div class="bg-gray-800 p-8 rounded-3xl shadow-xl text-center">
+      <h4 class="font-bold mb-2">Bases de Riesgo</h4>
+      <p>Veraz, Nosis, Equifax</p>
+    </div>
+    <div class="bg-gray-800 p-8 rounded-3xl shadow-xl text-center">
+      <h4 class="font-bold mb-2">Deudas Simuladas</h4>
+      <ul class="text-gray-300 text-sm">
+        <li>Banco A - $10.000 - Prescripta</li>
+        <li>Banco B - $5.000 - Pagada</li>
+        <li>Entidad C - $2.500 - Reciente</li>
+      </ul>
+    </div>
   </div>
-  <div class="text-center mt-8">
+  <div class="text-center mt-8 fade-in">
     <p>Usuarios que generaron cartas: <span class="indicator" id="usuariosCounter">1245</span></p>
   </div>
 </section>
 
-<!-- Botón flotante IA -->
-<div id="iaFloatingBtn" title="Asistente IA">
-  <img src="https://i.pravatar.cc/60?img=32" class="rounded-full">
-</div>
+<!-- Nosotros -->
+<section id="nosotros" class="py-24 container mx-auto px-6 text-center fade-in">
+  <h3 class="text-3xl font-bold mb-12">Sobre Nosotros</h3>
+  <div class="grid md:grid-cols-2 gap-12 items-center">
+    <div class="bg-gray-800 p-8 rounded-3xl shadow-xl">
+      <img src="https://i.pravatar.cc/150?img=12" alt="Ronaldo" class="w-32 h-32 mx-auto rounded-full mb-4">
+      <h4 class="font-bold text-xl mb-2">Ronaldo Martínez</h4>
+      <p>Fundador de TuVerax, guiando usuarios a recuperar su historial financiero.</p>
+    </div>
+    <div class="bg-gradient-to-r from-purple-600 to-cyan-400 p-8 rounded-3xl shadow-xl">
+      <img src="https://i.pravatar.cc/150?img=32" alt="IA Asistente" class="w-32 h-32 mx-auto rounded-full mb-4 avatar-ia">
+      <h4 class="font-bold text-xl mb-2">IA Asistente</h4>
+      <p>IA experta en derecho crediticio, protección de datos y generación de guías de reclamos.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FAQs -->
+<section id="faqs" class="py-24 bg-gray-900 container mx-auto px-6">
+  <h3 class="text-3xl font-bold mb-12 text-center fade-in">Preguntas Frecuentes</h3>
+  <div class="space-y-4 fade-in">
+    <div class="bg-gray-800 p-4 rounded-xl cursor-pointer faq-item">
+      <h4 class="font-semibold">¿Salir de Veraz garantiza crédito?</h4>
+      <p class="mt-2 text-gray-300 hidden">No necesariamente. Cada entidad consulta distintas bases de riesgo y políticas de crédito.</p>
+    </div>
+    <div class="bg-gray-800 p-4 rounded-xl cursor-pointer faq-item">
+      <h4 class="font-semibold">¿Cuánto tarda un reclamo?</h4>
+      <p class="mt-2 text-gray-300 hidden">Depende de la entidad y el tipo de deuda, generalmente 30-60 días hábiles.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonios -->
+<section id="testimonios" class="py-24 container mx-auto px-6 fade-in">
+  <h3 class="text-3xl font-bold mb-12 text-center">Testimonios</h3>
+  <div class="grid md:grid-cols-2 gap-8">
+    <div class="bg-gray-800 p-8 rounded-3xl shadow-xl">
+      <p>"Gracias a TuVerax pude recuperar mi historial y acceder a crédito nuevamente."</p>
+      <p class="font-bold mt-4">- Ana P.</p>
+    </div>
+    <div class="bg-gray-800 p-8 rounded-3xl shadow-xl">
+      <p>"El servicio premium con IA me guió en todo y fue increíblemente sencillo."</p>
+      <p class="font-bold mt-4">- Carlos M.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-gray-900 text-gray-400 py-12 text-center">
+  <p>© 2025 TuVerax. Todos los derechos reservados.</p>
+</footer>
 
 <script>
-// Menu
-const menuBtn = document.getElementById('menuBtn');
-const navMenu = document.getElementById('navMenu');
-menuBtn.addEventListener('click', () => navMenu.classList.toggle('hidden'));
+  // Menu hamburguesa
+  const menuBtn = document.getElementById('menuBtn');
+  const navMenu = document.getElementById('navMenu');
+  menuBtn.addEventListener('click', () => { navMenu.classList.toggle('hidden'); });
 
-// Scroll suave
-function scrollToSection(id) { document.getElementById(id).scrollIntoView({behavior:'smooth', block:'start'}); }
+  // Scroll smooth para botones
+  function scrollToSection(id) {
+    document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
 
-// Fade-in
-document.querySelectorAll('.fade-in').forEach(el => {
-  const observer = new IntersectionObserver(entries => { if(entries[0].isIntersecting) el.classList.add('show'); }, {threshold:0.2});
-  observer.observe(el);
-});
+  // Animación fade-in
+  const fadeEls = document.querySelectorAll('.fade-in');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => { if(entry.isIntersecting) entry.target.classList.add('show'); });
+  }, { threshold: 0.2 });
+  fadeEls.forEach(el => observer.observe(el));
 
-// Contador usuarios
-let usuarios=1245;
-setInterval(()=>{usuarios+=Math.floor(Math.random()*5);document.getElementById('usuariosCounter').textContent=usuarios;},2000);
+  // FAQs interactivo
+  document.querySelectorAll('.faq-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const p = item.querySelector('p');
+      p.classList.toggle('hidden');
+    });
+  });
 
-// Tarjetas flotantes hover
-document.querySelectorAll('.float-card').forEach(card=>{
-  card.addEventListener('mousemove',e=>card.style.transform=`translate(${e.offsetX/15}px, ${e.offsetY/15}px) rotate(${e.offsetX/50}deg)`);
-  card.addEventListener('mouseleave',()=>card.style.transform='translateY(0) rotate(0)');
-});
-
-// IA flotante
-document.getElementById('iaFloatingBtn').addEventListener('click',()=>{alert("IA lista para interactuar (API pendiente)");});
-
-// Chart.js
-const scoreCtx = document.getElementById('scoreChart').getContext('2d');
-new Chart(scoreCtx, { type:'doughnut', data:{labels:['Score'], datasets:[{data:[750,150], backgroundColor:['#3ACFD5','#444']} ] }, options:{plugins:{legend:{display:false}}} });
-
-const deudasCtx = document.getElementById('deudasChart').getContext('2d');
-new Chart(deudasCtx, { type:'bar', data:{labels:['Banco A','Banco B','Entidad C'], datasets:[{label:'Deuda ($)', data:[10000,5000,2500], backgroundColor:'#6D5BFF'}]}, options:{plugins:{legend:{display:false}}} });
-
-const basesCtx = document.getElementById('basesChart').getContext('2d');
-new Chart(basesCtx, { type:'pie', data:{labels:['Veraz','Nosis','Equifax'], datasets:[{data:[1,1,1], backgroundColor:['#6D5BFF','#3ACFD5','#8F3ACF']}]}, options:{plugins:{legend:{position:'bottom'}}} });
+  // Simulación contador dinámico
+  let usuarios = 1245;
+  setInterval(() => {
+    usuarios += Math.floor(Math.random()*3);
+    document.getElementById('usuariosCounter').textContent = usuarios;
+  }, 3000);
 </script>
 </body>
 </html>
