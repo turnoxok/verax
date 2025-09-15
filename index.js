@@ -1,14 +1,17 @@
-// Menu hamburguesa
+// Menu hamburguesa smooth
 const menuBtn = document.getElementById('menuBtn');
 const navMenu = document.getElementById('navMenu');
-menuBtn.addEventListener('click', () => { navMenu.classList.toggle('hidden'); });
+menuBtn.addEventListener('click', () => {
+  navMenu.classList.toggle('hidden');
+});
 
 // Scroll smooth para botones
 function scrollToSection(id) {
   document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
+document.getElementById('btnAutogestion').addEventListener('click', () => scrollToSection('autogestion'));
 
-// Animación fade-in
+// Fade-in
 const fadeEls = document.querySelectorAll('.fade-in');
 const observer = new IntersectionObserver(entries => {
   entries.forEach(entry => { if(entry.isIntersecting) entry.target.classList.add('show'); });
@@ -18,93 +21,106 @@ fadeEls.forEach(el => observer.observe(el));
 // FAQs interactivo
 document.querySelectorAll('.faq-item').forEach(item => {
   item.addEventListener('click', () => {
-    const p = item.querySelector('p');
-    p.classList.toggle('hidden');
+    item.querySelector('p').classList.toggle('hidden');
   });
 });
 
-// Simulación contador dinámico
-let usuarios = 1245;
-setInterval(() => {
-  usuarios += Math.floor(Math.random()*3);
-  document.getElementById('usuariosCounter').textContent = usuarios;
-}, 3000);
+// Score Crediticio 0-100 animado
+const scoreBar = document.getElementById('scoreBar');
+const scoreText = document.getElementById('scoreText');
+const scoreSection = document.getElementById('informes');
+let scoreAnimated = false;
 
-// --- Hero Partículas con líneas ---
+const scoreObserver = new IntersectionObserver(entries => {
+  if(entries[0].isIntersecting && !scoreAnimated){
+    scoreAnimated = true;
+    let score = 0;
+    const interval = setInterval(() => {
+      if(score >= 85){ clearInterval(interval); } // ejemplo: 85%
+      else{
+        score++;
+        scoreBar.style.width = score + '%';
+        scoreText.textContent = score + '/100';
+      }
+    }, 15);
+  }
+}, { threshold: 0.5 });
+scoreObserver.observe(scoreSection);
+
+// Usuarios que generaron cartas
+const usuariosCounter = document.getElementById('usuariosCounter');
+let usuarios = 0;
+const userObserver = new IntersectionObserver(entries => {
+  if(entries[0].isIntersecting){
+    const interval = setInterval(()=>{
+      if(usuarios >= 1245){ clearInterval(interval); }
+      else { usuarios++; usuariosCounter.textContent = usuarios; }
+    }, 10);
+  }
+}, { threshold: 0.5 });
+userObserver.observe(usuariosCounter.parentElement);
+
+// Hero canvas partículas con líneas
 const canvas = document.getElementById('heroCanvas');
 const ctx = canvas.getContext('2d');
-let particles = [];
-const colors = ['#7A5BFF','#A084FF'];
+let width, height;
+function resize(){ width = canvas.width = window.innerWidth; height = canvas.height = window.innerHeight; }
+window.addEventListener('resize', resize); resize();
 
-function resizeCanvas() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+const particles = [];
+const particleCount = 60;
+for(let i=0;i<particleCount;i++){
+  particles.push({
+    x: Math.random()*width,
+    y: Math.random()*height,
+    vx: (Math.random()-0.5)*0.5,
+    vy: (Math.random()-0.5)*0.5,
+    radius: 2 + Math.random()*2
+  });
 }
-window.addEventListener('resize', resizeCanvas);
-resizeCanvas();
 
-class Particle {
-  constructor() {
-    this.x = Math.random()*canvas.width;
-    this.y = Math.random()*canvas.height;
-    this.size = Math.random()*2+1;
-    this.speedX = (Math.random()-0.5)*0.5;
-    this.speedY = (Math.random()-0.5)*0.5;
-  }
-  update(mouse) {
-    let dx = mouse.x - this.x;
-    let dy = mouse.y - this.y;
-    let dist = Math.sqrt(dx*dx + dy*dy);
-    if(dist < 100) {
-      this.x -= dx*0.03;
-      this.y -= dy*0.03;
-    }
-    this.x += this.speedX;
-    this.y += this.speedY;
-
-    if(this.x < 0) this.x = canvas.width;
-    if(this.x > canvas.width) this.x = 0;
-    if(this.y < 0) this.y = canvas.height;
-    if(this.y > canvas.height) this.y = 0;
-  }
-  draw() {
+function animate(){
+  ctx.fillStyle = '#0b0033';
+  ctx.fillRect(0,0,width,height);
+  // partículas
+  particles.forEach(p=>{
+    p.x += p.vx; p.y += p.vy;
+    if(p.x <0 || p.x>width) p.vx*=-1;
+    if(p.y<0 || p.y>height) p.vy*=-1;
     ctx.beginPath();
-    ctx.arc(this.x, this.y, this.size, 0, Math.PI*2);
-    ctx.fillStyle = colors[Math.floor(Math.random()*colors.length)];
+    ctx.arc(p.x,p.y,p.radius,0,Math.PI*2);
+    ctx.fillStyle = '#9f7aea';
     ctx.fill();
-  }
-}
-
-for(let i=0;i<120;i++){ particles.push(new Particle()); }
-
-let mouse = {x:0,y:0};
-window.addEventListener('mousemove', (e)=>{ mouse.x=e.clientX; mouse.y=e.clientY; });
-
-function connectParticles() {
-  for(let a=0;a<particles.length;a++){
-    for(let b=a;b<particles.length;b++){
-      let dx = particles[a].x - particles[b].x;
-      let dy = particles[a].y - particles[b].y;
-      let dist = Math.sqrt(dx*dx + dy*dy);
-      if(dist < 120){
+  });
+  // líneas
+  for(let i=0;i<particles.length;i++){
+    for(let j=i+1;j<particles.length;j++){
+      const dx = particles[i].x - particles[j].x;
+      const dy = particles[i].y - particles[j].y;
+      const dist = Math.sqrt(dx*dx+dy*dy);
+      if(dist<120){
         ctx.beginPath();
-        ctx.strokeStyle = 'rgba(138, 104, 255,'+(1-dist/120)+')';
-        ctx.lineWidth = 0.5;
-        ctx.moveTo(particles[a].x, particles[a].y);
-        ctx.lineTo(particles[b].x, particles[b].y);
+        ctx.moveTo(particles[i].x,particles[i].y);
+        ctx.lineTo(particles[j].x,particles[j].y);
+        ctx.strokeStyle = 'rgba(159,122,234,'+(1-dist/120)+')';
+        ctx.lineWidth=1;
         ctx.stroke();
       }
     }
   }
-}
-
-function animate() {
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  particles.forEach(p=>{
-    p.update(mouse);
-    p.draw();
-  });
-  connectParticles();
   requestAnimationFrame(animate);
 }
 animate();
+
+// Mover partículas con mouse
+canvas.addEventListener('mousemove', e=>{
+  particles.forEach(p=>{
+    const dx = p.x - e.clientX;
+    const dy = p.y - e.clientY;
+    const dist = Math.sqrt(dx*dx+dy*dy);
+    if(dist<100){
+      p.vx += dx*0.0005;
+      p.vy += dy*0.0005;
+    }
+  });
+});
