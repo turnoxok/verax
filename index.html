@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TuVerax - Rehabilitación Crediticia</title>
 <script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 body { font-family: 'Inter', sans-serif; overflow-x: hidden; background: #0f0f1e; color: #fff; }
@@ -21,7 +22,7 @@ body { font-family: 'Inter', sans-serif; overflow-x: hidden; background: #0f0f1e
 .ripple::after { content: ""; position: absolute; width: 100px; height: 100px; background: rgba(255,255,255,0.4); display: block; border-radius: 50%; transform: scale(0); opacity: 0; pointer-events: none; transition: transform 0.5s, opacity 1s; }
 .ripple:active::after { transform: scale(4); opacity: 1; transition: 0s; }
 .indicator { font-size: 2rem; font-weight: bold; color: #3ACFD5; }
-.float-card { position: absolute; transition: transform 0.3s ease, opacity 0.5s ease; }
+.float-card { position: absolute; transition: transform 0.3s ease, opacity 0.5s ease; cursor:pointer; }
 .float-card:hover { transform: translateY(-10px) rotate(-2deg) scale(1.05); }
 #iaFloatingBtn { position: fixed; bottom: 40px; right: 40px; z-index: 1000; background: #6D5BFF; border-radius: 50%; width: 70px; height: 70px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 10px 30px rgba(0,0,0,0.4); transition: transform 0.3s; }
 #iaFloatingBtn:hover { transform: scale(1.2); }
@@ -62,7 +63,6 @@ body { font-family: 'Inter', sans-serif; overflow-x: hidden; background: #0f0f1e
     </div>
   </div>
   <img src="https://i.pravatar.cc/100?img=32" alt="IA Asistente" class="absolute top-16 right-16 w-28 h-28 avatar-ia shadow-lg">
-  <!-- Tarjetas flotantes ejemplo -->
   <div class="float-card bg-gradient-to-r from-purple-600 to-cyan-400 p-4 rounded-xl shadow-xl" style="top:20%; left:10%; width:150px; opacity:0.9;">Score: 750</div>
   <div class="float-card bg-gradient-to-r from-cyan-400 to-purple-600 p-4 rounded-xl shadow-xl" style="top:50%; right:15%; width:150px; opacity:0.9;">Deuda: $5000</div>
 </section>
@@ -77,21 +77,12 @@ body { font-family: 'Inter', sans-serif; overflow-x: hidden; background: #0f0f1e
       <li>Aprender cómo hacer reclamos legales</li>
       <li>Simulaciones de cartas e informes</li>
     </ul>
-    <div class="bg-gray-700 p-4 rounded-xl mb-2">
-      <p class="mb-1">Ejemplo de carta prescripta:</p>
-      <pre class="bg-gray-900 p-2 rounded text-green-400 text-sm">[Entidad], solicito eliminar la deuda prescripta...</pre>
-    </div>
-    <div class="bg-gray-700 p-4 rounded-xl">
-      <p class="mb-1">Ejemplo de deuda pagada:</p>
-      <pre class="bg-gray-900 p-2 rounded text-green-400 text-sm">[Entidad], solicito actualizar mi historial indicando deuda saldada...</pre>
-    </div>
   </div>
-
   <div id="premium" class="card bg-gradient-to-r from-purple-600 to-cyan-400 text-white p-10 rounded-3xl shadow-xl fade-in">
     <h3 class="text-3xl font-bold mb-4">Premium IA</h3>
     <p class="mb-6">Tu asistente IA hace todo por vos: analiza, explica y guía.</p>
     <ul class="mb-6 space-y-2 list-disc list-inside">
-      <li>IA explica cómo generar cartas correctamente</li>
+      <li>IA genera cartas automáticamente</li>
       <li>Simula informes comerciales avanzados</li>
       <li>Evaluación de posibilidad de crédito</li>
       <li>Seguimiento de reclamos automatizado</li>
@@ -100,15 +91,15 @@ body { font-family: 'Inter', sans-serif; overflow-x: hidden; background: #0f0f1e
   </div>
 </section>
 
-<!-- Dashboard Simulado -->
-<section id="informes" class="py-24 bg-gray-900 relative">
-  <h3 class="text-3xl font-bold mb-12 text-center fade-in">Simulación de Dashboard</h3>
-  <div class="grid md:grid-cols-3 gap-8 container mx-auto px-6 fade-in relative">
-    <div class="bg-gray-800 p-8 rounded-3xl shadow-xl text-center float-card" style="top:0; left:0;">Score Crediticio <br> 750/900</div>
-    <div class="bg-gray-800 p-8 rounded-3xl shadow-xl text-center float-card" style="top:10%; left:30%;">Bases de Riesgo <br> Veraz, Nosis</div>
-    <div class="bg-gray-800 p-8 rounded-3xl shadow-xl text-center float-card" style="top:20%; right:0;">Deudas Simuladas <br> $10.000, $5.000, $2.500</div>
+<!-- Dashboard Simulado con Chart.js -->
+<section id="informes" class="py-24 bg-gray-900 relative fade-in">
+  <h3 class="text-3xl font-bold mb-12 text-center">Dashboard Interactivo</h3>
+  <div class="grid md:grid-cols-3 gap-8 container mx-auto px-6 relative">
+    <canvas id="scoreChart" class="bg-gray-800 p-4 rounded-3xl shadow-xl"></canvas>
+    <canvas id="deudasChart" class="bg-gray-800 p-4 rounded-3xl shadow-xl"></canvas>
+    <canvas id="basesChart" class="bg-gray-800 p-4 rounded-3xl shadow-xl"></canvas>
   </div>
-  <div class="text-center mt-8 fade-in">
+  <div class="text-center mt-8">
     <p>Usuarios que generaron cartas: <span class="indicator" id="usuariosCounter">1245</span></p>
   </div>
 </section>
@@ -119,49 +110,42 @@ body { font-family: 'Inter', sans-serif; overflow-x: hidden; background: #0f0f1e
 </div>
 
 <script>
+// Menu
 const menuBtn = document.getElementById('menuBtn');
 const navMenu = document.getElementById('navMenu');
-menuBtn.addEventListener('click', () => { navMenu.classList.toggle('hidden'); });
+menuBtn.addEventListener('click', () => navMenu.classList.toggle('hidden'));
 
-function scrollToSection(id) {
-  document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
-}
+// Scroll suave
+function scrollToSection(id) { document.getElementById(id).scrollIntoView({behavior:'smooth', block:'start'}); }
 
-// Fade-in observer
-const fadeEls = document.querySelectorAll('.fade-in');
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(entry => { if(entry.isIntersecting) entry.target.classList.add('show'); });
-}, { threshold: 0.2 });
-fadeEls.forEach(el => observer.observe(el));
-
-// FAQs
-document.querySelectorAll('.faq-item').forEach(item => {
-  item.addEventListener('click', () => {
-    const p = item.querySelector('p');
-    p.classList.toggle('hidden');
-  });
+// Fade-in
+document.querySelectorAll('.fade-in').forEach(el => {
+  const observer = new IntersectionObserver(entries => { if(entries[0].isIntersecting) el.classList.add('show'); }, {threshold:0.2});
+  observer.observe(el);
 });
 
-// Contador dinámico
-let usuarios = 1245;
-setInterval(() => {
-  usuarios += Math.floor(Math.random()*3);
-  document.getElementById('usuariosCounter').textContent = usuarios;
-}, 3000);
+// Contador usuarios
+let usuarios=1245;
+setInterval(()=>{usuarios+=Math.floor(Math.random()*5);document.getElementById('usuariosCounter').textContent=usuarios;},2000);
 
-// Tarjetas flotantes animación simple
-document.querySelectorAll('.float-card').forEach(card => {
-  card.style.transition = 'transform 0.3s ease, opacity 0.5s ease';
-  card.addEventListener('mousemove', e => {
-    card.style.transform = `translate(${e.offsetX/15}px, ${e.offsetY/15}px) rotate(${e.offsetX/50}deg)`;
-  });
-  card.addEventListener('mouseleave', () => { card.style.transform='translateY(0) rotate(0)'; });
+// Tarjetas flotantes hover
+document.querySelectorAll('.float-card').forEach(card=>{
+  card.addEventListener('mousemove',e=>card.style.transform=`translate(${e.offsetX/15}px, ${e.offsetY/15}px) rotate(${e.offsetX/50}deg)`);
+  card.addEventListener('mouseleave',()=>card.style.transform='translateY(0) rotate(0)');
 });
 
-// Botón IA flotante clic
-document.getElementById('iaFloatingBtn').addEventListener('click', () => {
-  alert("IA lista para interactuar (clave API pendiente)");
-});
+// IA flotante
+document.getElementById('iaFloatingBtn').addEventListener('click',()=>{alert("IA lista para interactuar (API pendiente)");});
+
+// Chart.js
+const scoreCtx = document.getElementById('scoreChart').getContext('2d');
+new Chart(scoreCtx, { type:'doughnut', data:{labels:['Score'], datasets:[{data:[750,150], backgroundColor:['#3ACFD5','#444']} ] }, options:{plugins:{legend:{display:false}}} });
+
+const deudasCtx = document.getElementById('deudasChart').getContext('2d');
+new Chart(deudasCtx, { type:'bar', data:{labels:['Banco A','Banco B','Entidad C'], datasets:[{label:'Deuda ($)', data:[10000,5000,2500], backgroundColor:'#6D5BFF'}]}, options:{plugins:{legend:{display:false}}} });
+
+const basesCtx = document.getElementById('basesChart').getContext('2d');
+new Chart(basesCtx, { type:'pie', data:{labels:['Veraz','Nosis','Equifax'], datasets:[{data:[1,1,1], backgroundColor:['#6D5BFF','#3ACFD5','#8F3ACF']}]}, options:{plugins:{legend:{position:'bottom'}}} });
 </script>
 </body>
 </html>
