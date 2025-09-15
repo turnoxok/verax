@@ -17,17 +17,17 @@
     .card:hover { transform: translateY(-8px); box-shadow: 0 15px 30px rgba(0,0,0,0.3); }
     .faq-answer { display: none; }
     .faq-item.open .faq-answer { display: block; }
-     .carousel {
+    .carousel {
   display: flex;
-  overflow-x: hidden;
-  scroll-behavior: smooth;
-  justify-content: center;
-  gap: 1rem; /* espacio entre items */
+  overflow-x: auto;
+  scroll-snap-type: x mandatory; /* fuerza que encastre */
+  -webkit-overflow-scrolling: touch;
+  gap: 1rem;
 }
 
 .carousel-item {
-  flex: 0 0 calc(100vw - 2rem); /* ocupa ancho de pantalla - márgenes */
-  margin: 0 auto;
+  flex: 0 0 100%; /* ocupa toda la pantalla */
+  scroll-snap-align: center; /* se centra solo */
   padding: 2rem;
   border-radius: 1rem;
   background: linear-gradient(135deg, #6d28d9, #ec4899);
@@ -37,6 +37,7 @@
   box-shadow: 0 4px 12px rgba(0,0,0,0.3);
   text-align: center;
 }
+
 @media (min-width: 768px) {
   .carousel-item {
     flex: 0 0 calc(50% - 1rem);
