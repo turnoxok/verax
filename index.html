@@ -1,56 +1,72 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TuVerax - Rehabilitación Crediticia</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-<style>
-  body { font-family: 'Inter', sans-serif; overflow-x: hidden; background: #0d0b1a; color: #fff; }
-  .gradient-bg { background: linear-gradient(135deg, #7b2ff7, #f107a3); }
-  .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 1s ease, transform 1s ease; }
-  .fade-in.show { opacity: 1; transform: translateY(0); }
-  .scroll-smooth { scroll-behavior: smooth; }
-  canvas#hero-bg { position: absolute; top:0; left:0; width:100%; height:100%; z-index:0; }
-  .hero-content { position: relative; z-index:10; }
-  .card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
-  .card:hover { transform: translateY(-8px); box-shadow: 0 15px 30px rgba(0,0,0,0.3); }
-  .faq-answer { display: none; }
-  .faq-item.open .faq-answer { display: block; }
-  .carousel { display:flex; overflow-x:auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; gap:1rem; }
-  .carousel::-webkit-scrollbar { display:none; }
-  .carousel-item { flex:0 0 80%; scroll-snap-align: start; background:#1f1b2e; border-radius:1rem; padding:2rem; }
-  /* Menú móvil */
-  #navMenu { transform: translateY(-100%); transition: transform 0.5s; }
-  #navMenu.open { transform: translateY(0); }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TuVerax - Rehabilitación Crediticia</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; overflow-x: hidden; background: #0d0b1a; color: #fff; scroll-behavior: smooth; }
+    .gradient-bg { background: linear-gradient(135deg, #7b2ff7, #f107a3); }
+    .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 1s ease, transform 1s ease; }
+    .fade-in.show { opacity: 1; transform: translateY(0); }
+    canvas#hero-bg { position: absolute; top:0; left:0; width:100%; height:100%; z-index:0; }
+    .hero-content { position: relative; z-index:10; }
+    .card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+    .card:hover { transform: translateY(-8px); box-shadow: 0 15px 30px rgba(0,0,0,0.3); }
+    .faq-answer { display: none; }
+    .faq-item.open .faq-answer { display: block; }
+    .carousel { display:flex; overflow-x:auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; gap:1rem; }
+    .carousel::-webkit-scrollbar { display:none; }
+    .carousel-item { flex:0 0 80%; scroll-snap-align: start; background:#1f1b2e; border-radius:1rem; padding:2rem; }
+    /* Menu móvil */
+    .mobile-menu { position: fixed; top:0; left:0; width:100%; height:100%; background:#0d0b1a; display:flex; flex-direction:column; justify-center; align-items:center; gap:2rem; z-index:50; transition: transform 0.3s ease; transform: translateY(-100%); }
+    .mobile-menu.show { transform: translateY(0); }
+    .menu-icon { cursor:pointer; transition: all 0.3s ease; }
+    .menu-icon.open span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
+    .menu-icon.open span:nth-child(2) { opacity:0; }
+    .menu-icon.open span:nth-child(3) { transform: rotate(-45deg) translate(6px,-6px); }
+    .menu-icon span { display:block; width:30px; height:3px; margin:5px; background:white; border-radius:2px; }
+  </style>
 </head>
-<body class="scroll-smooth">
+<body>
 
 <!-- Header -->
 <header class="fixed w-full z-50 gradient-bg text-white shadow-lg">
   <div class="container mx-auto flex justify-between items-center py-4 px-6">
     <h1 class="text-2xl font-bold">TuVerax</h1>
+    <!-- Botón hamburguesa móvil -->
     <div class="md:hidden">
-      <button id="menuBtn" class="focus:outline-none relative w-8 h-8">
-        <span class="block w-8 h-0.5 bg-white mb-1 transition-transform origin-center"></span>
-        <span class="block w-8 h-0.5 bg-white mb-1 transition-transform origin-center"></span>
-        <span class="block w-8 h-0.5 bg-white transition-transform origin-center"></span>
-      </button>
+      <div id="menuBtn" class="menu-icon">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
     </div>
-    <nav id="navMenu" class="fixed top-0 left-0 w-full h-full bg-gray-900/95 flex flex-col items-center justify-center space-y-6 text-2xl md:static md:flex md:flex-row md:space-y-0 md:space-x-6 md:translate-y-0">
-      <a href="#autogestion" class="hover:underline nav-link">Autogestión</a>
-      <a href="#premium" class="hover:underline nav-link">Premium</a>
-      <a href="#nosotros" class="hover:underline nav-link">Nosotros</a>
-      <a href="#informes" class="hover:underline nav-link">Informes</a>
-      <a href="#faqs" class="hover:underline nav-link">FAQs</a>
-      <a href="#testimonios" class="hover:underline nav-link">Testimonios</a>
+    <!-- Menu desktop -->
+    <nav id="navMenu" class="hidden md:flex space-x-6 text-lg">
+      <a href="#autogestion" class="hover:underline">Autogestión</a>
+      <a href="#premium" class="hover:underline">Premium</a>
+      <a href="#nosotros" class="hover:underline">Nosotros</a>
+      <a href="#informes" class="hover:underline">Informes</a>
+      <a href="#faqs" class="hover:underline">FAQs</a>
+      <a href="#testimonios" class="hover:underline">Testimonios</a>
     </nav>
   </div>
 </header>
 
-<!-- Hero con partículas -->
+<!-- Menu móvil -->
+<div id="mobileMenu" class="mobile-menu md:hidden">
+  <a href="#autogestion" class="text-2xl">Autogestión</a>
+  <a href="#premium" class="text-2xl">Premium</a>
+  <a href="#nosotros" class="text-2xl">Nosotros</a>
+  <a href="#informes" class="text-2xl">Informes</a>
+  <a href="#faqs" class="text-2xl">FAQs</a>
+  <a href="#testimonios" class="text-2xl">Testimonios</a>
+</div>
+
+<!-- Hero -->
 <section class="h-screen flex items-center justify-center text-center px-6 relative overflow-hidden">
   <canvas id="hero-bg"></canvas>
   <div class="hero-content text-white">
@@ -163,7 +179,91 @@
 </footer>
 
 <!-- Scripts -->
-<script src="main.js"></script>
+<script>
+  // Menu hamburguesa móvil
+  const menuBtn = document.getElementById('menuBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  menuBtn.addEventListener('click', () => {
+    mobileMenu.classList.toggle('show');
+    menuBtn.classList.toggle('open');
+  });
+
+  // Cerrar menú al click en link
+  mobileMenu.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      mobileMenu.classList.remove('show');
+      menuBtn.classList.remove('open');
+    });
+  });
+
+  // Fade-in al hacer scroll
+  const fadeEls = document.querySelectorAll('.fade-in');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => { if(entry.isIntersecting) entry.target.classList.add('show'); });
+  }, { threshold: 0.2 });
+  fadeEls.forEach(el => observer.observe(el));
+
+  // FAQs toggle
+  document.querySelectorAll('.faq-item').forEach(item => {
+    item.addEventListener('click', () => item.classList.toggle('open'));
+  });
+
+  // Score animado
+  const scoreBar = document.getElementById('scoreBar');
+  const scoreValue = document.getElementById('scoreValue');
+  let score = 0, maxScore = 100;
+  const animateScore = () => {
+    if(score < maxScore){
+      score++;
+      scoreBar.style.width = score + "%";
+      scoreValue.textContent = score;
+      requestAnimationFrame(animateScore);
+    }
+  };
+  const scoreObs = new IntersectionObserver(entries => {
+    if(entries[0].isIntersecting) animateScore();
+  }, { threshold: 0.5 });
+  scoreObs.observe(scoreBar);
+
+  // Contador usuarios
+  let usuarios = 0;
+  const usuariosCounter = document.getElementById('usuariosCounter');
+  const animateUsuarios = () => {
+    if(usuarios < 5000){
+      usuarios += Math.floor(Math.random()*20);
+      usuariosCounter.textContent = usuarios;
+      requestAnimationFrame(animateUsuarios);
+    }
+  };
+  usuariosCounter.addEventListener('mouseenter', animateUsuarios);
+
+  // Carrusel auto-scroll
+  const carousel = document.getElementById('carousel');
+  setInterval(() => { carousel.scrollBy({ left: 300, behavior: 'smooth' }); }, 4000);
+
+  // Partículas Hero
+  const canvas = document.getElementById('hero-bg');
+  const ctx = canvas.getContext('2d');
+  let particles = [];
+  function resize(){ canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+  window.addEventListener('resize', resize); resize();
+  class Particle {
+    constructor(){ this.x=Math.random()*canvas.width; this.y=Math.random()*canvas.height; this.r=2; this.vx=(Math.random()-0.5); this.vy=(Math.random()-0.5); }
+    move(){ this.x+=this.vx; this.y+=this.vy; if(this.x<0||this.x>canvas.width) this.vx*=-1; if(this.y<0||this.y>canvas.height) this.vy*=-1; }
+    draw(){ ctx.beginPath(); ctx.arc(this.x,this.y,this.r,0,Math.PI*2); ctx.fillStyle="#a855f7"; ctx.fill(); }
+  }
+  for(let i=0;i<80;i++) particles.push(new Particle());
+  function connect(){ 
+    for(let i=0;i<particles.length;i++){ 
+      for(let j=i+1;j<particles.length;j++){ 
+        let dx=particles[i].x-particles[j].x, dy=particles[i].y-particles[j].y, dist=Math.sqrt(dx*dx+dy*dy); 
+        if(dist<120){ ctx.strokeStyle="rgba(168,85,247,0.3)"; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(particles[i].x,particles[i].y); ctx.lineTo(particles[j].x,particles[j].y); ctx.stroke(); } 
+      } 
+    } 
+  }
+  function animate(){ ctx.clearRect(0,0,canvas.width,canvas.height); particles.forEach(p=>{p.move();p.draw();}); connect(); requestAnimationFrame(animate); }
+  animate();
+</script>
 
 </body>
 </html>
