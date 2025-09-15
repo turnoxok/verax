@@ -17,9 +17,26 @@
     .card:hover { transform: translateY(-8px); box-shadow: 0 15px 30px rgba(0,0,0,0.3); }
     .faq-answer { display: none; }
     .faq-item.open .faq-answer { display: block; }
-    .carousel { display:flex; overflow-x:auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; gap:1rem; }
-    .carousel::-webkit-scrollbar { display:none; }
-    .carousel-item { flex:0 0 80%; scroll-snap-align: start; background:#1f1b2e; border-radius:1rem; padding:2rem; }
+     .carousel {
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+  }
+  .carousel::-webkit-scrollbar {
+    display: none;
+  }
+  .carousel-item {
+    flex: 0 0 auto;
+    min-width: 300px;
+    margin-right: 20px;
+    padding: 20px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #6d28d9, #ec4899);
+    color: white;
+    font-size: 1rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  }
     /* Menu móvil */
     .mobile-menu { position: fixed; top:0px; left:0; width:100%; height:100%; background:#0d0b1a; display:flex; flex-direction:column; justify-center; align-items:center; gap:2rem; z-index:50; transition: transform 0.3s ease; transform: translateY(-100%); }
     .mobile-menu.show { transform: translateY(0); top:60px;}
@@ -171,16 +188,26 @@
 <section id="testimonios" class="py-24 container mx-auto px-6 fade-in">
   <h3 class="text-3xl font-bold mb-12 text-center">Testimonios</h3>
   <div class="carousel" id="carousel">
-    <div class="carousel-item">"Gracias a TuVerax accedí a crédito nuevamente." - Ana</div>
-    <div class="carousel-item">"Premium con IA me guió en todo." - Carlos</div>
-    <div class="carousel-item">"Muy fácil y rápido." - Marta</div>
-    <div class="carousel-item">"Me explicaron todo paso a paso." - Jorge</div>
-    <div class="carousel-item">"El dashboard es genial." - Laura</div>
-    <div class="carousel-item">"Ya no dependo de abogados caros." - Pablo</div>
-    <div class="carousel-item">"Excelente atención." - Sofía</div>
-    <div class="carousel-item">"La IA es impresionante." - Diego</div>
-    <div class="carousel-item">"Lo recomiendo a todos." - Valeria</div>
-    <div class="carousel-item">"Mi score subió gracias a TuVerax." - Martín</div>
+    <div class="carousel-item">"Con el plan de Autogestión IA entendí mi situación financiera y pude armar mis reclamos paso a paso. Nunca pensé que algo tan complejo se podía simplificar tanto." – Ana G.</div>
+    <div class="carousel-item">"Elegí el plan con un Experto porque no tenía tiempo ni paciencia. Me atendieron de inmediato, hicieron todo por mí y en pocas semanas pude volver a acceder a un crédito." – Carlos M.</div>
+    <div class="carousel-item">"La asistencia de la IA fue increíble, me fue guiando con lenguaje claro y pude generar mis primeras cartas de reclamo yo solo. Muy fácil y rápido." – Marta L.</div>
+    <div class="carousel-item">"Me explicaron cada paso del proceso y resolvieron mis dudas al instante. Sentí que por fin alguien estaba de mi lado." – Jorge P.</div>
+    <div class="carousel-item">"El dashboard me permitió ver mi score crediticio crecer mes a mes, fue motivador. Ahora controlo mis finanzas con más seguridad." – Laura S.</div>
+    <div class="carousel-item">"Antes gastaba mucho en abogados y gestores. Con TuVerax y la Autogestión IA, pude resolver mis deudas pagando solo lo justo." – Pablo D.</div>
+    <div class="carousel-item">"La atención humana del plan Premium fue impecable, se ocuparon de todo mientras yo me dedicaba a mi trabajo. Cero estrés." – Sofía R.</div>
+    <div class="carousel-item">"Me sorprendió lo realista que es la IA: me explicó términos legales complicados como si hablara con un asesor de confianza." – Diego A.</div>
+    <div class="carousel-item">"Lo recomiendo porque combina tecnología y trato humano. Dependiendo de lo que necesites, tenés las dos opciones." – Valeria F.</div>
+    <div class="carousel-item">"En tres meses, gracias al acompañamiento de TuVerax, mi score subió más de 40 puntos. Ahora me aprobaron un préstamo que antes era imposible." – Martín R.</div>
+    <div class="carousel-item">"Con Autogestión IA entendí cómo salir del Veraz sin gastar fortuna. Solo seguí las instrucciones y funcionó." – Belén H.</div>
+    <div class="carousel-item">"El experto que me atendió fue súper claro, revisó mis deudas y me dio un plan de acción en un día." – Ricardo V.</div>
+    <div class="carousel-item">"Lo que más me gustó fue la transparencia: sabía qué pasos venían y cuánto tardaban." – Estela Q.</div>
+    <div class="carousel-item">"Con Premium no tuve que preocuparme de nada, me liberó mucho tiempo." – Federico L.</div>
+    <div class="carousel-item">"La IA me ayudó a entender las bases de riesgo y cómo me evaluaban. Ahora sé dónde mejorar." – Natalia P.</div>
+    <div class="carousel-item">"Nunca había usado un sistema así. Muy tecnológico pero fácil de usar." – Gustavo J.</div>
+    <div class="carousel-item">"Sentí que recuperé mi dignidad financiera gracias a TuVerax." – Verónica C.</div>
+    <div class="carousel-item">"Lo recomiendo a mis amigos porque es mucho más rápido que esperar a que las deudas se borren solas." – Hugo M.</div>
+    <div class="carousel-item">"La IA me recordó plazos y fechas que hubiera pasado por alto, eso me salvó." – Romina F.</div>
+    <div class="carousel-item">"Con TuVerax aprendí a manejar mis deudas y hoy estoy más tranquilo." – Andrés T.</div>
   </div>
 </section>
 
@@ -248,9 +275,20 @@
   };
   usuariosCounter.addEventListener('mouseenter', animateUsuarios);
 
-  // Carrusel auto-scroll
-  const carousel = document.getElementById('carousel');
-  setInterval(() => { carousel.scrollBy({ left: 300, behavior: 'smooth' }); }, 4000);
+  
+  // Carrusel infinito
+  const carousel = document.getElementById("carousel");
+  let scrollAmount = 0;
+
+  function autoScroll() {
+    if (carousel.scrollLeft + carousel.offsetWidth >= carousel.scrollWidth) {
+      carousel.scrollTo({ left: 0, behavior: "smooth" }); // vuelve al inicio
+    } else {
+      carousel.scrollBy({ left: 300, behavior: "smooth" }); // avanza
+    }
+  }
+
+  setInterval(autoScroll, 3000); // cada 3 seg
 
   // Partículas Hero
   const canvas = document.getElementById('hero-bg');
