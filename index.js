@@ -32,7 +32,7 @@ setInterval(() => {
 }, 3000);
 
 // ============================
-// Partículas interactivas en hero
+// Partículas conectadas en hero
 // ============================
 const canvas = document.getElementById('heroCanvas');
 const ctx = canvas.getContext('2d');
@@ -84,6 +84,24 @@ class Particle {
   }
 }
 
+function connectParticles() {
+  for(let a=0;a<particles.length;a++){
+    for(let b=a;b<particles.length;b++){
+      let dx = particles[a].x - particles[b].x;
+      let dy = particles[a].y - particles[b].y;
+      let dist = Math.sqrt(dx*dx + dy*dy);
+      if(dist < 120){
+        ctx.strokeStyle = 'rgba(255,255,255,0.1)';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(particles[a].x, particles[a].y);
+        ctx.lineTo(particles[b].x, particles[b].y);
+        ctx.stroke();
+      }
+    }
+  }
+}
+
 function initParticles(num=100){
   for(let i=0;i<num;i++){
     particles.push(new Particle());
@@ -92,6 +110,7 @@ function initParticles(num=100){
 function animateParticles(){
   ctx.clearRect(0,0,canvas.width,canvas.height);
   particles.forEach(p => { p.update(); p.draw(); });
+  connectParticles();
   requestAnimationFrame(animateParticles);
 }
 
