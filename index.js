@@ -30,11 +30,11 @@ setInterval(() => {
   document.getElementById('usuariosCounter').textContent = usuarios;
 }, 3000);
 
-// --- Partículas Hero ---
+// --- Hero Partículas con líneas ---
 const canvas = document.getElementById('heroCanvas');
 const ctx = canvas.getContext('2d');
 let particles = [];
-const colors = ['#fff','#3ACFD5','#6D5BFF','#FFD700'];
+const colors = ['#7A5BFF','#A084FF'];
 
 function resizeCanvas() {
   canvas.width = window.innerWidth;
@@ -47,10 +47,9 @@ class Particle {
   constructor() {
     this.x = Math.random()*canvas.width;
     this.y = Math.random()*canvas.height;
-    this.size = Math.random()*3+1;
+    this.size = Math.random()*2+1;
     this.speedX = (Math.random()-0.5)*0.5;
     this.speedY = (Math.random()-0.5)*0.5;
-    this.color = colors[Math.floor(Math.random()*colors.length)];
   }
   update(mouse) {
     let dx = mouse.x - this.x;
@@ -71,15 +70,33 @@ class Particle {
   draw() {
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.size, 0, Math.PI*2);
-    ctx.fillStyle = this.color;
+    ctx.fillStyle = colors[Math.floor(Math.random()*colors.length)];
     ctx.fill();
   }
 }
 
-for(let i=0;i<150;i++){ particles.push(new Particle()); }
+for(let i=0;i<120;i++){ particles.push(new Particle()); }
 
 let mouse = {x:0,y:0};
 window.addEventListener('mousemove', (e)=>{ mouse.x=e.clientX; mouse.y=e.clientY; });
+
+function connectParticles() {
+  for(let a=0;a<particles.length;a++){
+    for(let b=a;b<particles.length;b++){
+      let dx = particles[a].x - particles[b].x;
+      let dy = particles[a].y - particles[b].y;
+      let dist = Math.sqrt(dx*dx + dy*dy);
+      if(dist < 120){
+        ctx.beginPath();
+        ctx.strokeStyle = 'rgba(138, 104, 255,'+(1-dist/120)+')';
+        ctx.lineWidth = 0.5;
+        ctx.moveTo(particles[a].x, particles[a].y);
+        ctx.lineTo(particles[b].x, particles[b].y);
+        ctx.stroke();
+      }
+    }
+  }
+}
 
 function animate() {
   ctx.clearRect(0,0,canvas.width,canvas.height);
@@ -87,6 +104,7 @@ function animate() {
     p.update(mouse);
     p.draw();
   });
+  connectParticles();
   requestAnimationFrame(animate);
 }
 animate();
