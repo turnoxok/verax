@@ -4,27 +4,29 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TuVerax - Rehabilitación Crediticia</title>
-<link href="dist/output.css" rel="stylesheet"> <!-- Tailwind compilado para producción -->
+<link href="dist/output.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-  body { font-family: 'Inter', sans-serif; overflow-x: hidden; background: #0b0033; color: #fff; }
-  .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 1s ease, transform 1s ease; }
-  .fade-in.show { opacity: 1; transform: translateY(0); }
-  .card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
-  .card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
-  .avatar-ia { animation: float 3s ease-in-out infinite; border: 4px solid #fff; border-radius: 50%; }
-  @keyframes float { 0%,100% { transform: translateY(0);} 50% { transform: translateY(-10px);} }
-  .scroll-smooth { scroll-behavior: smooth; }
-  .ripple { position: relative; overflow: hidden; }
-  .ripple::after { content: ""; position: absolute; width: 100px; height: 100px; background: rgba(255,255,255,0.4); display: block; border-radius: 50%; transform: scale(0); opacity: 0; pointer-events: none; transition: transform 0.5s, opacity 1s; }
-  .ripple:active::after { transform: scale(4); opacity: 1; transition: 0s; }
-  .indicator { font-size: 2rem; font-weight: bold; color: #9f7aea; }
+body { font-family: 'Inter', sans-serif; overflow-x: hidden; background: #0b0033; color: #fff; }
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 1s ease, transform 1s ease; }
+.fade-in.show { opacity: 1; transform: translateY(0); }
+.card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+.card:hover { transform: translateY(-6px); box-shadow: 0 15px 30px rgba(0,0,0,0.3); }
+.avatar-ia { animation: float 3s ease-in-out infinite; border: 4px solid #fff; border-radius: 50%; }
+@keyframes float { 0%,100% { transform: translateY(0);} 50% { transform: translateY(-8px);} }
+.scroll-smooth { scroll-behavior: smooth; }
+.ripple { position: relative; overflow: hidden; }
+.ripple::after { content: ""; position: absolute; width: 100px; height: 100px; background: rgba(255,255,255,0.3); display: block; border-radius: 50%; transform: scale(0); opacity: 0; pointer-events: none; transition: transform 0.5s, opacity 1s; }
+.ripple:active::after { transform: scale(4); opacity: 1; transition: 0s; }
+.indicator { font-size: 2rem; font-weight: bold; color: #9f7aea; }
+::-webkit-scrollbar { height: 8px; }
+::-webkit-scrollbar-thumb { background: #6b46c1; border-radius: 4px; }
 </style>
 </head>
 <body class="scroll-smooth">
 
 <!-- Header -->
-<header class="fixed w-full z-50 gradient-bg text-white shadow-lg">
+<header class="fixed w-full z-50 bg-gradient-to-r from-purple-700 via-purple-900 to-violet-900 text-white shadow-lg">
   <div class="container mx-auto flex justify-between items-center py-4 px-6">
     <h1 class="text-2xl font-bold tracking-wide">TuVerax</h1>
     <div class="md:hidden">
@@ -34,24 +36,24 @@
         </svg>
       </button>
     </div>
-    <nav id="navMenu" class="hidden md:flex flex-col md:flex-row md:space-x-6 gap-y-4 md:gap-y-0 text-lg transition-all duration-500 ease-in-out">
-      <a href="#autogestion" class="hover:underline">Autogestión</a>
-      <a href="#premium" class="hover:underline">Premium</a>
-      <a href="#nosotros" class="hover:underline">Nosotros</a>
-      <a href="#informes" class="hover:underline">Informes</a>
-      <a href="#faqs" class="hover:underline">FAQs</a>
-      <a href="#testimonios" class="hover:underline">Testimonios</a>
+    <nav id="navMenu" class="hidden md:flex flex-col md:flex-row md:space-x-8 gap-y-4 md:gap-y-0 text-lg transition-all duration-500 ease-in-out">
+      <a href="#autogestion" class="hover:text-cyan-400">Autogestión</a>
+      <a href="#premium" class="hover:text-cyan-400">Premium</a>
+      <a href="#nosotros" class="hover:text-cyan-400">Nosotros</a>
+      <a href="#informes" class="hover:text-cyan-400">Informes</a>
+      <a href="#faqs" class="hover:text-cyan-400">FAQs</a>
+      <a href="#testimonios" class="hover:text-cyan-400">Testimonios</a>
     </nav>
   </div>
 </header>
 
-<!-- Hero Parallax con IA -->
-<section id="hero" class="relative h-screen w-full bg-violet-900 overflow-hidden">
+<!-- Hero -->
+<section id="hero" class="relative h-screen w-full bg-violet-900 overflow-hidden flex items-center justify-center">
   <canvas id="heroCanvas" class="absolute top-0 left-0 w-full h-full"></canvas>
-  <div class="relative z-10 flex flex-col items-center justify-center h-full text-center text-white px-6">
+  <div class="relative z-10 text-center px-6 max-w-3xl">
     <h2 class="text-5xl md:text-6xl font-bold mb-6 fade-in">Recupera tu historial crediticio</h2>
-    <p class="text-xl md:text-2xl mb-8 fade-in">Tu asistente IA te guía paso a paso para limpiar tu historial y recuperar tu poder financiero.</p>
-    <div class="flex justify-center gap-6 fade-in">
+    <p class="text-lg md:text-2xl mb-8 fade-in">Tu asistente IA te guía paso a paso para limpiar tu historial y recuperar tu poder financiero.</p>
+    <div class="flex justify-center gap-6 fade-in flex-wrap">
       <button id="btnAutogestion" class="ripple bg-gradient-to-r from-purple-600 to-cyan-400 px-6 py-3 rounded-xl font-semibold hover:scale-105 transition transform">Autogestión</button>
       <button onclick="scrollToSection('premium')" class="ripple bg-white text-purple-700 px-6 py-3 rounded-xl font-semibold hover:scale-105 transition transform">Premium IA</button>
     </div>
@@ -59,7 +61,7 @@
   <img src="https://i.pravatar.cc/100?img=32" alt="IA Asistente" class="absolute top-16 right-16 w-24 h-24 avatar-ia shadow-lg">
 </section>
 
-<!-- Sections (Autogestión, Premium, Dashboard, Nosotros, FAQs, Testimonios) -->
+<!-- Secciones -->
 <section id="autogestion" class="py-24 container mx-auto px-6 grid md:grid-cols-2 gap-12">
   <div class="card bg-gray-800 p-10 rounded-3xl shadow-xl fade-in">
     <h3 class="text-3xl font-bold mb-4">Autogestión</h3>
@@ -70,7 +72,6 @@
       <li>Simulaciones de cartas e informes</li>
     </ul>
   </div>
-
   <div id="premium" class="card bg-gradient-to-r from-purple-600 to-cyan-400 text-white p-10 rounded-3xl shadow-xl fade-in">
     <h3 class="text-3xl font-bold mb-4">Premium IA</h3>
     <p class="mb-6">Tu asistente IA hace todo por vos: analiza, explica y guía.</p>
@@ -89,7 +90,7 @@
     <div class="bg-gray-800 p-8 rounded-3xl shadow-xl text-center">
       <h4 class="font-bold mb-2">Score Crediticio</h4>
       <div class="bg-gray-700 h-4 rounded-full overflow-hidden">
-        <div id="scoreBar" class="bg-green-400 h-4 w-0"></div>
+        <div id="scoreBar" class="bg-green-400 h-4 w-0 transition-all duration-700"></div>
       </div>
       <p id="scoreText" class="mt-2">0/100</p>
     </div>
@@ -110,57 +111,3 @@
     <p>Usuarios que generaron cartas: <span class="indicator" id="usuariosCounter">0</span></p>
   </div>
 </section>
-
-<section id="nosotros" class="py-24 container mx-auto px-6 text-center fade-in">
-  <h3 class="text-3xl font-bold mb-12">Sobre Nosotros</h3>
-  <div class="grid md:grid-cols-2 gap-12 items-center">
-    <div class="bg-gray-800 p-8 rounded-3xl shadow-xl">
-      <img src="https://i.pravatar.cc/150?img=12" alt="Ronaldo" class="w-32 h-32 mx-auto rounded-full mb-4">
-      <h4 class="font-bold text-xl mb-2">Ronaldo Martínez</h4>
-      <p>Fundador de TuVerax, guiando usuarios a recuperar su historial financiero.</p>
-    </div>
-    <div class="bg-gradient-to-r from-purple-600 to-cyan-400 p-8 rounded-3xl shadow-xl">
-      <img src="https://i.pravatar.cc/150?img=32" alt="IA Asistente" class="w-32 h-32 mx-auto rounded-full mb-4 avatar-ia">
-      <h4 class="font-bold text-xl mb-2">IA Asistente</h4>
-      <p>IA experta en derecho crediticio, protección de datos y generación de guías de reclamos.</p>
-    </div>
-  </div>
-</section>
-
-<section id="faqs" class="py-24 bg-gray-900 container mx-auto px-6">
-  <h3 class="text-3xl font-bold mb-12 text-center fade-in">Preguntas Frecuentes</h3>
-  <div class="space-y-4 fade-in">
-    <div class="faq-item bg-gray-800 p-4 rounded-xl cursor-pointer"><h4 class="font-semibold">¿Salir de Veraz garantiza crédito?</h4><p class="mt-2 text-gray-300 hidden">No necesariamente. Cada entidad consulta distintas bases de riesgo y políticas de crédito.</p></div>
-    <div class="faq-item bg-gray-800 p-4 rounded-xl cursor-pointer"><h4 class="font-semibold">¿Cuánto tarda un reclamo?</h4><p class="mt-2 text-gray-300 hidden">Depende de la entidad y el tipo de deuda, generalmente 30-60 días hábiles.</p></div>
-    <div class="faq-item bg-gray-800 p-4 rounded-xl cursor-pointer"><h4 class="font-semibold">¿Puedo eliminar deudas prescriptas?</h4><p class="mt-2 text-gray-300 hidden">Sí, mediante reclamo legal o presentación de carta de prescripción.</p></div>
-    <div class="faq-item bg-gray-800 p-4 rounded-xl cursor-pointer"><h4 class="font-semibold">¿Qué es el puntaje crediticio?</h4><p class="mt-2 text-gray-300 hidden">Es un número que representa tu historial y riesgo financiero.</p></div>
-    <div class="faq-item bg-gray-800 p-4 rounded-xl cursor-pointer"><h4 class="font-semibold">¿La IA reemplaza abogados?</h4><p class="mt-2 text-gray-300 hidden">No, te guía pero no sustituye asesoría legal profesional.</p></div>
-    <div class="faq-item bg-gray-800 p-4 rounded-xl cursor-pointer"><h4 class="font-semibold">¿Cuánto cuesta Premium IA?</h4><p class="mt-2 text-gray-300 hidden">El precio depende del plan elegido y beneficios incluidos.</p></div>
-    <div class="faq-item bg-gray-800 p-4 rounded-xl cursor-pointer"><h4 class="font-semibold">¿Mis datos están seguros?</h4><p class="mt-2 text-gray-300 hidden">Sí, cumplimos con las normativas de protección de datos.</p></div>
-  </div>
-</section>
-
-<section id="testimonios" class="py-24 container mx-auto px-6 fade-in">
-  <h3 class="text-3xl font-bold mb-12 text-center">Testimonios</h3>
-  <div id="testimonialSlider" class="flex gap-6 overflow-x-auto snap-x snap-mandatory touch-pan-x">
-    <!-- 10 testimonios -->
-    <div class="min-w-[250px] bg-gray-800 p-6 rounded-3xl shadow-xl snap-start flex-shrink-0">"Gracias a TuVerax pude recuperar mi historial y acceder a crédito nuevamente." <p class="font-bold mt-2">- Ana P.</p></div>
-    <div class="min-w-[250px] bg-gray-800 p-6 rounded-3xl shadow-xl snap-start flex-shrink-0">"El servicio premium con IA me guió en todo y fue increíblemente sencillo." <p class="font-bold mt-2">- Carlos M.</p></div>
-    <div class="min-w-[250px] bg-gray-800 p-6 rounded-3xl shadow-xl snap-start flex-shrink-0">"Muy útil y fácil de usar." <p class="font-bold mt-2">- Laura S.</p></div>
-    <div class="min-w-[250px] bg-gray-800 p-6 rounded-3xl shadow-xl snap-start flex-shrink-0">"Recuperé mis deudas prescriptas." <p class="font-bold mt-2">- Martín R.</p></div>
-    <div class="min-w-[250px] bg-gray-800 p-6 rounded-3xl shadow-xl snap-start flex-shrink-0">"Excelente experiencia con IA." <p class="font-bold mt-2">- Sofia T.</p></div>
-    <div class="min-w-[250px] bg-gray-800 p-6 rounded-3xl shadow-xl snap-start flex-shrink-0">"Rápido y confiable." <p class="font-bold mt-2">- Pedro G.</p></div>
-    <div class="min-w-[250px] bg-gray-800 p-6 rounded-3xl shadow-xl snap-start flex-shrink-0">"Me encantó la animación y guía." <p class="font-bold mt-2">- Valeria M.</p></div>
-    <div class="min-w-[250px] bg-gray-800 p-6 rounded-3xl shadow-xl snap-start flex-shrink-0">"Todo fue muy intuitivo." <p class="font-bold mt-2">- Lucas C.</p></div>
-    <div class="min-w-[250px] bg-gray-800 p-6 rounded-3xl shadow-xl snap-start flex-shrink-0">"Superó mis expectativas." <p class="font-bold mt-2">- Carolina F.</p></div>
-    <div class="min-w-[250px] bg-gray-800 p-6 rounded-3xl shadow-xl snap-start flex-shrink-0">"Lo recomiendo 100%." <p class="font-bold mt-2">- Juan D.</p></div>
-  </div>
-</section>
-
-<footer class="bg-gray-900 text-gray-400 py-12 text-center">
-  <p>© 2025 TuVerax. Todos los derechos reservados.</p>
-</footer>
-
-<script src="index.js"></script>
-</body>
-</html>
