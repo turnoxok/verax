@@ -19,32 +19,28 @@
     .faq-item.open .faq-answer { display: block; }
      .carousel {
     display: flex;
-    overflow-x: auto;
+    overflow-x: hidden; /* ocultamos scroll manual */
     scroll-behavior: smooth;
-    scrollbar-width: none;
-  }
-  .carousel::-webkit-scrollbar {
-    display: none;
   }
   .carousel-item {
-    flex: 0 0 100%; /* por defecto ocupa todo el ancho (móvil) */
-    margin-right: 20px;
-    padding: 24px;
-    border-radius: 16px;
+    flex: 0 0 100vw; /* cada item ocupa toda la pantalla */
+    padding: 2rem;
+    border-radius: 1rem;
     background: linear-gradient(135deg, #6d28d9, #ec4899);
     color: white;
     font-size: 1.1rem;
     line-height: 1.6;
     box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    text-align: center;
   }
   @media (min-width: 768px) {
     .carousel-item {
-      flex: 0 0 45%; /* en tablets ocupa 45% del ancho */
+      flex: 0 0 50%; /* en tablet: 2 items */
     }
   }
   @media (min-width: 1024px) {
     .carousel-item {
-      flex: 0 0 30%; /* en desktop ocupa 30% del ancho */
+      flex: 0 0 33.333%; /* en desktop: 3 items */
     }
   }
     /* Menu móvil */
@@ -287,19 +283,21 @@
 
   
   // Carrusel infinito
-  const carousel = document.getElementById("carousel");
-  let scrollAmount = 0;
+  const carousel = document.getElementById('carousel');
+  const items = document.querySelectorAll('.carousel-item');
+  let index = 0;
 
-  function autoScroll() {
-    if (carousel.scrollLeft + carousel.offsetWidth >= carousel.scrollWidth) {
-      carousel.scrollTo({ left: 0, behavior: "smooth" }); // vuelve al inicio
-    } else {
-      carousel.scrollBy({ left: 300, behavior: "smooth" }); // avanza
-    }
+  function nextSlide() {
+    index++;
+    if (index >= items.length) index = 0; // volver al inicio
+    const itemWidth = items[0].offsetWidth;
+    carousel.scrollTo({
+      left: itemWidth * index,
+      behavior: 'smooth'
+    });
   }
 
-  setInterval(autoScroll, 3000); // cada 3 seg
-
+  setInterval(nextSlide, 4000); // cada 4 segundos cambia
   // Partículas Hero
   const canvas = document.getElementById('hero-bg');
   const ctx = canvas.getContext('2d');
