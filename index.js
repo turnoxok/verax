@@ -1,109 +1,95 @@
-// Menu hamburguesa smooth
+// Menu hamburguesa
 const menuBtn = document.getElementById('menuBtn');
 const navMenu = document.getElementById('navMenu');
 menuBtn.addEventListener('click', () => {
   navMenu.classList.toggle('hidden');
 });
 
-// Scroll smooth para botones
+// Scroll smooth
 function scrollToSection(id) {
   document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
-document.getElementById('btnAutogestion').addEventListener('click', () => scrollToSection('autogestion'));
 
-// Fade-in
+// Fade-in animation
 const fadeEls = document.querySelectorAll('.fade-in');
 const observer = new IntersectionObserver(entries => {
   entries.forEach(entry => { if(entry.isIntersecting) entry.target.classList.add('show'); });
 }, { threshold: 0.2 });
 fadeEls.forEach(el => observer.observe(el));
 
-// FAQs interactivo
+// FAQs
 document.querySelectorAll('.faq-item').forEach(item => {
   item.addEventListener('click', () => {
-    item.querySelector('p').classList.toggle('hidden');
+    const p = item.querySelector('p');
+    p.classList.toggle('hidden');
   });
 });
 
-// Score Crediticio 0-100 animado
+// Contador usuarios
+let usuarios = 0;
+const userCounter = document.getElementById('usuariosCounter');
+setInterval(() => {
+  if(usuarios < 1245) usuarios += Math.floor(Math.random()*3);
+  userCounter.textContent = usuarios;
+}, 3000);
+
+// Barra Score Crediticio
 const scoreBar = document.getElementById('scoreBar');
 const scoreText = document.getElementById('scoreText');
-const scoreSection = document.getElementById('informes');
-let scoreAnimated = false;
-
-const scoreObserver = new IntersectionObserver(entries => {
-  if(entries[0].isIntersecting && !scoreAnimated){
-    scoreAnimated = true;
-    let score = 0;
-    const interval = setInterval(() => {
-      if(score >= 85){ clearInterval(interval); } // ejemplo: 85%
-      else{
-        score++;
-        scoreBar.style.width = score + '%';
-        scoreText.textContent = score + '/100';
-      }
-    }, 15);
+window.addEventListener('scroll', () => {
+  const section = document.getElementById('informes');
+  const rect = section.getBoundingClientRect();
+  if(rect.top < window.innerHeight && rect.bottom > 0) {
+    let progress = Math.min(100, Math.floor((window.innerHeight - rect.top)/rect.height*100));
+    scoreBar.style.width = progress + '%';
+    scoreText.textContent = progress + '/100';
   }
-}, { threshold: 0.5 });
-scoreObserver.observe(scoreSection);
+});
 
-// Usuarios que generaron cartas
-const usuariosCounter = document.getElementById('usuariosCounter');
-let usuarios = 0;
-const userObserver = new IntersectionObserver(entries => {
-  if(entries[0].isIntersecting){
-    const interval = setInterval(()=>{
-      if(usuarios >= 1245){ clearInterval(interval); }
-      else { usuarios++; usuariosCounter.textContent = usuarios; }
-    }, 10);
-  }
-}, { threshold: 0.5 });
-userObserver.observe(usuariosCounter.parentElement);
-
-// Hero canvas partículas con líneas
+// Hero canvas particles
 const canvas = document.getElementById('heroCanvas');
 const ctx = canvas.getContext('2d');
-let width, height;
-function resize(){ width = canvas.width = window.innerWidth; height = canvas.height = window.innerHeight; }
-window.addEventListener('resize', resize); resize();
+let particles = [];
+let lines = [];
+function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
 
-const particles = [];
-const particleCount = 60;
-for(let i=0;i<particleCount;i++){
+// Crear partículas
+for(let i=0;i<150;i++){
   particles.push({
-    x: Math.random()*width,
-    y: Math.random()*height,
-    vx: (Math.random()-0.5)*0.5,
-    vy: (Math.random()-0.5)*0.5,
-    radius: 2 + Math.random()*2
+    x: Math.random()*canvas.width,
+    y: Math.random()*canvas.height,
+    r: Math.random()*2+1,
+    vx: Math.random()*0.5-0.25,
+    vy: Math.random()*0.5-0.25
   });
 }
 
-function animate(){
-  ctx.fillStyle = '#0b0033';
-  ctx.fillRect(0,0,width,height);
-  // partículas
+// Animación
+function animate() {
+  ctx.clearRect(0,0,canvas.width,canvas.height);
   particles.forEach(p=>{
-    p.x += p.vx; p.y += p.vy;
-    if(p.x <0 || p.x>width) p.vx*=-1;
-    if(p.y<0 || p.y>height) p.vy*=-1;
+    p.x += p.vx;
+    p.y += p.vy;
+    if(p.x<0||p.x>canvas.width) p.vx*=-1;
+    if(p.y<0||p.y>canvas.height) p.vy*=-1;
     ctx.beginPath();
-    ctx.arc(p.x,p.y,p.radius,0,Math.PI*2);
-    ctx.fillStyle = '#9f7aea';
+    ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx.fillStyle='rgba(159,122,234,0.7)';
     ctx.fill();
   });
-  // líneas
+  // Conectar líneas
   for(let i=0;i<particles.length;i++){
     for(let j=i+1;j<particles.length;j++){
-      const dx = particles[i].x - particles[j].x;
-      const dy = particles[i].y - particles[j].y;
-      const dist = Math.sqrt(dx*dx+dy*dy);
-      if(dist<120){
+      let dx=particles[i].x-particles[j].x;
+      let dy=particles[i].y-particles[j].y;
+      let dist=Math.sqrt(dx*dx+dy*dy);
+      if(dist<100){
         ctx.beginPath();
+        ctx.strokeStyle='rgba(159,122,234,'+(0.3-(dist/300))+')';
         ctx.moveTo(particles[i].x,particles[i].y);
         ctx.lineTo(particles[j].x,particles[j].y);
-        ctx.strokeStyle = 'rgba(159,122,234,'+(1-dist/120)+')';
-        ctx.lineWidth=1;
         ctx.stroke();
       }
     }
@@ -112,15 +98,29 @@ function animate(){
 }
 animate();
 
-// Mover partículas con mouse
-canvas.addEventListener('mousemove', e=>{
-  particles.forEach(p=>{
-    const dx = p.x - e.clientX;
-    const dy = p.y - e.clientY;
-    const dist = Math.sqrt(dx*dx+dy*dy);
-    if(dist<100){
-      p.vx += dx*0.0005;
-      p.vy += dy*0.0005;
-    }
-  });
+// Testimonios carrusel
+const container = document.getElementById('testimoniosContainer');
+let isDown = false, startX, scrollLeft;
+container.addEventListener('mousedown', (e)=>{
+  isDown = true;
+  startX = e.pageX - container.offsetLeft;
+  scrollLeft = container.scrollLeft;
+});
+container.addEventListener('mouseleave', ()=>{isDown=false;});
+container.addEventListener('mouseup', ()=>{isDown=false;});
+container.addEventListener('mousemove', e=>{
+  if(!isDown) return;
+  e.preventDefault();
+  const x = e.pageX - container.offsetLeft;
+  const walk = (x - startX) * 2;
+  container.scrollLeft = scrollLeft - walk;
+});
+container.addEventListener('touchstart', e=>{
+  startX = e.touches[0].pageX - container.offsetLeft;
+  scrollLeft = container.scrollLeft;
+});
+container.addEventListener('touchmove', e=>{
+  const x = e.touches[0].pageX - container.offsetLeft;
+  const walk = (x - startX) * 2;
+  container.scrollLeft = scrollLeft - walk;
 });
