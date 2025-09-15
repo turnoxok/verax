@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TuVerax - Rehabilitación Crediticia</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; overflow-x: hidden; background: #0d0b1a; color: #fff; }
+    .gradient-bg { background: linear-gradient(135deg, #7b2ff7, #f107a3); }
+    .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 1s ease, transform 1s ease; }
+    .fade-in.show { opacity: 1; transform: translateY(0); }
+    .scroll-smooth { scroll-behavior: smooth; }
+    canvas#hero-bg { position: absolute; top:0; left:0; width:100%; height:100%; z-index:0; }
+    .hero-content { position: relative; z-index:10; }
+    .card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+    .card:hover { transform: translateY(-8px); box-shadow: 0 15px 30px rgba(0,0,0,0.3); }
+    .faq-answer { display: none; }
+    .faq-item.open .faq-answer { display: block; }
+    .carousel { display:flex; overflow-x:auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; gap:1rem; }
+    .carousel::-webkit-scrollbar { display:none; }
+    .carousel-item { flex:0 0 80%; scroll-snap-align: start; background:#1f1b2e; border-radius:1rem; padding:2rem; }
+  </style>
+</head>
+<body class="scroll-smooth">
+
+<!-- Header -->
+<header class="fixed w-full z-50 gradient-bg text-white shadow-lg">
+  <div class="container mx-auto flex justify-between items-center py-4 px-6">
+    <h1 class="text-2xl font-bold">TuVerax</h1>
+    <div class="md:hidden">
+      <button id="menuBtn" class="focus:outline-none">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </button>
+    </div>
+    <nav id="navMenu" class="hidden md:flex space-x-6 text-lg">
+      <a href="#autogestion" class="hover:underline">Autogestión</a>
+      <a href="#premium" class="hover:underline">Premium</a>
+      <a href="#nosotros" class="hover:underline">Nosotros</a>
+      <a href="#informes" class="hover:underline">Informes</a>
+      <a href="#faqs" class="hover:underline">FAQs</a>
+      <a href="#testimonios" class="hover:underline">Testimonios</a>
+    </nav>
+  </div>
+</header>
+
+<!-- Hero con partículas -->
+<section class="h-screen flex items-center justify-center text-center px-6 relative overflow-hidden">
+  <canvas id="hero-bg"></canvas>
+  <div class="hero-content text-white">
+    <h2 class="text-5xl md:text-6xl font-bold mb-6">Recupera tu historial crediticio</h2>
+    <p class="text-xl md:text-2xl mb-8">Tu asistente IA te guía paso a paso para limpiar tu historial y recuperar tu poder financiero.</p>
+    <div class="flex justify-center gap-6">
+      <a href="#autogestion" class="bg-gradient-to-r from-purple-600 to-pink-500 px-6 py-3 rounded-xl font-semibold hover:scale-105 transition">Autogestión</a>
+      <a href="#premium" class="bg-white text-purple-700 px-6 py-3 rounded-xl font-semibold hover:scale-105 transition">Premium IA</a>
+    </div>
+  </div>
+</section>
+
+<!-- Autogestión & Premium -->
+<section id="autogestion" class="py-24 container mx-auto px-6 grid md:grid-cols-2 gap-12">
+  <div class="card bg-gray-800 p-10 rounded-3xl shadow-xl fade-in">
+    <h3 class="text-3xl font-bold mb-4">Autogestión</h3>
+    <p class="mb-6 text-gray-300">Simula lo que podrás hacer cuando accedas a tus informes.</p>
+    <ul class="mb-6 space-y-2 text-gray-400 list-disc list-inside">
+      <li>Ver tus deudas en diferentes bases</li>
+      <li>Aprender cómo hacer reclamos legales</li>
+      <li>Simulaciones de cartas e informes</li>
+    </ul>
+  </div>
+
+  <div id="premium" class="card bg-gradient-to-r from-purple-600 to-pink-500 text-white p-10 rounded-3xl shadow-xl fade-in">
+    <h3 class="text-3xl font-bold mb-4">Premium IA</h3>
+    <p class="mb-6">Tu asistente IA hace todo por vos: analiza, explica y guía.</p>
+    <ul class="mb-6 space-y-2 list-disc list-inside">
+      <li>IA explica cómo generar cartas correctamente</li>
+      <li>Simula informes comerciales avanzados</li>
+      <li>Evaluación de posibilidad de crédito</li>
+      <li>Seguimiento de reclamos automatizado</li>
+    </ul>
+  </div>
+</section>
+
+<!-- Dashboard -->
+<section id="informes" class="py-24 bg-gray-900 text-center">
+  <h3 class="text-3xl font-bold mb-12 fade-in">Simulación de Dashboard</h3>
+  <div class="grid md:grid-cols-3 gap-8 container mx-auto px-6 fade-in">
+    <div class="bg-gray-800 p-8 rounded-3xl shadow-xl">
+      <h4 class="font-bold mb-2">Score Crediticio</h4>
+      <div class="bg-gray-700 h-4 rounded-full overflow-hidden">
+        <div id="scoreBar" class="bg-green-400 h-4 w-0"></div>
+      </div>
+      <p class="mt-2"><span id="scoreValue">0</span>/100</p>
+    </div>
+    <div class="bg-gray-800 p-8 rounded-3xl shadow-xl">
+      <h4 class="font-bold mb-2">Bases de Riesgo</h4>
+      <p>Veraz, Nosis, Equifax</p>
+    </div>
+    <div class="bg-gray-800 p-8 rounded-3xl shadow-xl">
+      <h4 class="font-bold mb-2">Usuarios que generaron cartas</h4>
+      <p class="text-3xl font-bold" id="usuariosCounter">0</p>
+    </div>
+  </div>
+</section>
+
+<!-- Nosotros -->
+<section id="nosotros" class="py-24 container mx-auto px-6 text-center fade-in">
+  <h3 class="text-3xl font-bold mb-12">Sobre Nosotros</h3>
+  <div class="grid md:grid-cols-2 gap-12 items-center">
+    <div class="bg-gray-800 p-8 rounded-3xl shadow-xl">
+      <img src="https://i.pravatar.cc/150?img=12" alt="Ronaldo" class="w-32 h-32 mx-auto rounded-full mb-4">
+      <h4 class="font-bold text-xl mb-2">Ronaldo Martínez</h4>
+      <p>Fundador de TuVerax, guiando usuarios a recuperar su historial financiero.</p>
+    </div>
+    <div class="bg-gradient-to-r from-purple-600 to-pink-500 p-8 rounded-3xl shadow-xl">
+      <img src="https://i.pravatar.cc/150?img=32" alt="IA Asistente" class="w-32 h-32 mx-auto rounded-full mb-4">
+      <h4 class="font-bold text-xl mb-2">IA Asistente</h4>
+      <p>IA experta en derecho crediticio, protección de datos y generación de guías de reclamos.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FAQs -->
+<section id="faqs" class="py-24 bg-gray-900 container mx-auto px-6">
+  <h3 class="text-3xl font-bold mb-12 text-center fade-in">Preguntas Frecuentes</h3>
+  <div class="space-y-4 fade-in">
+    <div class="faq-item bg-gray-800 p-4 rounded-xl cursor-pointer"><h4>¿Salir de Veraz garantiza crédito?</h4><p class="faq-answer mt-2 text-gray-300">No necesariamente, depende de cada entidad.</p></div>
+    <div class="faq-item bg-gray-800 p-4 rounded-xl cursor-pointer"><h4>¿Cuánto tarda un reclamo?</h4><p class="faq-answer mt-2 text-gray-300">Generalmente entre 30 y 60 días hábiles.</p></div>
+    <div class="faq-item bg-gray-800 p-4 rounded-xl cursor-pointer"><h4>¿Qué es una deuda prescripta?</h4><p class="faq-answer mt-2 text-gray-300">Es una deuda cuyo tiempo legal de reclamo expiró.</p></div>
+    <div class="faq-item bg-gray-800 p-4 rounded-xl cursor-pointer"><h4>¿Puedo reclamar sin abogado?</h4><p class="faq-answer mt-2 text-gray-300">Sí, con las guías correctas podés autogestionarlo.</p></div>
+    <div class="faq-item bg-gray-800 p-4 rounded-xl cursor-pointer"><h4>¿La IA es segura?</h4><p class="faq-answer mt-2 text-gray-300">Sí, trabajamos con protocolos de privacidad y seguridad.</p></div>
+    <div class="faq-item bg-gray-800 p-4 rounded-xl cursor-pointer"><h4>¿Qué diferencia hay entre gratis y premium?</h4><p class="faq-answer mt-2 text-gray-300">Gratis te da guías básicas, premium incluye IA avanzada.</p></div>
+    <div class="faq-item bg-gray-800 p-4 rounded-xl cursor-pointer"><h4>¿Cuánto cuesta el servicio premium?</h4><p class="faq-answer mt-2 text-gray-300">El costo depende del plan elegido.</p></div>
+  </div>
+</section>
+
+<!-- Testimonios -->
+<section id="testimonios" class="py-24 container mx-auto px-6 fade-in">
+  <h3 class="text-3xl font-bold mb-12 text-center">Testimonios</h3>
+  <div class="carousel" id="carousel">
+    <div class="carousel-item">"Gracias a TuVerax accedí a crédito nuevamente." - Ana</div>
+    <div class="carousel-item">"Premium con IA me guió en todo." - Carlos</div>
+    <div class="carousel-item">"Muy fácil y rápido." - Marta</div>
+    <div class="carousel-item">"Me explicaron todo paso a paso." - Jorge</div>
+    <div class="carousel-item">"El dashboard es genial." - Laura</div>
+    <div class="carousel-item">"Ya no dependo de abogados caros." - Pablo</div>
+    <div class="carousel-item">"Excelente atención." - Sofía</div>
+    <div class="carousel-item">"La IA es impresionante." - Diego</div>
+    <div class="carousel-item">"Lo recomiendo a todos." - Valeria</div>
+    <div class="carousel-item">"Mi score subió gracias a TuVerax." - Martín</div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-gray-900 text-gray-400 py-12 text-center">
+  <p>© 2025 TuVerax. Todos los derechos reservados.</p>
+</footer>
+
+<!-- Scripts -->
+<script>
+  // Menu hamburguesa
+  const menuBtn = document.getElementById('menuBtn');
+  const navMenu = document.getElementById('navMenu');
+  menuBtn.addEventListener('click', () => navMenu.classList.toggle('hidden'));
+
+  // Fade-in al hacer scroll
+  const fadeEls = document.querySelectorAll('.fade-in');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => { if(entry.isIntersecting) entry.target.classList.add('show'); });
+  }, { threshold: 0.2 });
+  fadeEls.forEach(el => observer.observe(el));
+
+  // FAQs toggle
+  document.querySelectorAll('.faq-item').forEach(item => {
+    item.addEventListener('click', () => item.classList.toggle('open'));
+  });
+
+  // Score animado
+  const scoreBar = document.getElementById('scoreBar');
+  const scoreValue = document.getElementById('scoreValue');
+  let score = 0, maxScore = 100;
+  const animateScore = () => {
+    if(score < maxScore){
+      score++;
+      scoreBar.style.width = score + "%";
+      scoreValue.textContent = score;
+      requestAnimationFrame(animateScore);
+    }
+  };
+  const scoreObs = new IntersectionObserver(entries => {
+    if(entries[0].isIntersecting) animateScore();
+  }, { threshold: 0.5 });
+  scoreObs.observe(scoreBar);
+
+  // Contador usuarios
+  let usuarios = 0;
+  const usuariosCounter = document.getElementById('usuariosCounter');
+  const animateUsuarios = () => {
+    if(usuarios < 5000){
+      usuarios += Math.floor(Math.random()*20);
+      usuariosCounter.textContent = usuarios;
+      requestAnimationFrame(animateUsuarios);
+    }
+  };
+  usuariosCounter.addEventListener('mouseenter', animateUsuarios);
+
+  // Carrusel auto-scroll
+  const carousel = document.getElementById('carousel');
+  setInterval(() => { carousel.scrollBy({ left: 300, behavior: 'smooth' }); }, 4000);
+
+  // Partículas Hero
+  const canvas = document.getElementById('hero-bg');
+  const ctx = canvas.getContext('2d');
+  let particles = [];
+  function resize(){ canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+  window.addEventListener('resize', resize); resize();
+  class Particle {
+    constructor(){ this.x=Math.random()*canvas.width; this.y=Math.random()*canvas.height; this.r=2; this.vx=(Math.random()-0.5); this.vy=(Math.random()-0.5); }
+    move(){ this.x+=this.vx; this.y+=this.vy; if(this.x<0||this.x>canvas.width) this.vx*=-1; if(this.y<0||this.y>canvas.height) this.vy*=-1; }
+    draw(){ ctx.beginPath(); ctx.arc(this.x,this.y,this.r,0,Math.PI*2); ctx.fillStyle="#a855f7"; ctx.fill(); }
+  }
+  for(let i=0;i<80;i++) particles.push(new Particle());
+  function connect(){ for(let i=0;i<particles.length;i++){ for(let j=i+1;j<particles.length;j++){ let dx=particles[i].x-particles[j].x, dy=particles[i].y-particles[j].y, dist=Math.sqrt(dx*dx+dy*dy); if(dist<120){ ctx.strokeStyle="rgba(168,85,247,0.3)"; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(particles[i].x,particles[i].y); ctx.lineTo(particles[j].x,particles[j].y); ctx.stroke(); } } } }
+  function animate(){ ctx.clearRect(0,0,canvas.width,canvas.height); particles.forEach(p=>{p.move();p.draw();}); connect(); requestAnimationFrame(animate); }
+  animate();
+</script>
+
+</body>
+</html>
