@@ -1,5 +1,8 @@
 {
   "name": "cea-netlify",
   "version": "1.0.0",
-  "dependencies": {}
+  "dependencies": {
+    "chrome-aws-lambda": "^15.0.1",
+    "puppeteer-core": "^20.8.0"
+  }
 }
