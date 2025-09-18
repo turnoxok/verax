@@ -1,10 +1,9 @@
+// Placeholder: sirve para recibir y guardar el informe si querés
 exports.handler = async (event) => {
-  const data = JSON.parse(event.body || '{}');
-  if (!data.dni || !data.report) return { statusCode: 400, body: 'Faltan datos' };
-
-  // Aquí podrías guardar en DB o enviar por mail
-  console.log('DNI:', data.dni);
-  console.log('Reporte:', data.report);
-
-  return { statusCode: 200, body: 'Reporte recibido' };
+  const body = JSON.parse(event.body || "{}");
+  // Ejemplo: guardar JSON en DB o S3
+  return {
+    statusCode: 200,
+    body: JSON.stringify({ ok: true, recibido: body })
+  };
 };
