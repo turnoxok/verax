@@ -1,11 +1,12 @@
-exports.handler = async (event) => {
-  const { token, reportData } = JSON.parse(event.body);
+exports.handler = async function(event) {
+  const data = JSON.parse(event.body || "{}");
 
-  // Aquí guardás reportData en tu base (puede ser Airtable, Fauna, Netlify KV, etc)
-  console.log("Token:", token, "Datos del informe:", reportData);
+  if (!data.dni || !data.informe) {
+    return { statusCode: 400, body: "Faltan datos" };
+  }
 
-  return {
-    statusCode: 200,
-    body: JSON.stringify({ ok: true })
-  };
+  // Aquí guardás donde quieras (DB, Google Sheets, S3, etc.)
+  console.log("Informe recibido:", data);
+
+  return { statusCode: 200, body: "Informe guardado correctamente" };
 };
