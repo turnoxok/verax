@@ -1,12 +1,10 @@
-exports.handler = async function(event) {
-  const data = JSON.parse(event.body || "{}");
+exports.handler = async (event) => {
+  const data = JSON.parse(event.body || '{}');
+  if (!data.dni || !data.report) return { statusCode: 400, body: 'Faltan datos' };
 
-  if (!data.dni || !data.informe) {
-    return { statusCode: 400, body: "Faltan datos" };
-  }
+  // Aquí podrías guardar en DB o enviar por mail
+  console.log('DNI:', data.dni);
+  console.log('Reporte:', data.report);
 
-  // Aquí guardás donde quieras (DB, Google Sheets, S3, etc.)
-  console.log("Informe recibido:", data);
-
-  return { statusCode: 200, body: "Informe guardado correctamente" };
+  return { statusCode: 200, body: 'Reporte recibido' };
 };
