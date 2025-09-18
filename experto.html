@@ -1,34 +1,53 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Consulta CEA</title>
-  <style>
-    body { font-family: Arial; background: #f5f5f5; padding: 20px; }
-    input, button { padding: 10px; margin: 5px 0; width: 200px; }
-    iframe { width: 100%; height: 500px; border: 1px solid #ccc; margin-top: 10px; }
-  </style>
+<meta charset="UTF-8">
+<title>Informe CEA</title>
+<style>
+  body { font-family: Arial, sans-serif; margin: 20px; }
+  #ceaFrame { width: 100%; height: 600px; border: 1px solid #ccc; display: none; margin-top: 20px; }
+  #tokenSection { margin-bottom: 20px; }
+</style>
 </head>
 <body>
-  <h1>Consulta CEA</h1>
-  <input type="text" id="dni" placeholder="Ingrese DNI">
-  <button onclick="verInforme()">Ver Informe</button>
 
-  <iframe id="informeFrame"></iframe>
+<h1>Consulta tu Informe CEA</h1>
 
-  <script>
-    async function verInforme() {
-      const dni = document.getElementById('dni').value.trim();
-      if (!dni) return alert('Ingresá un DNI');
+<div id="tokenSection">
+  <button id="payButton">Pagar y generar token</button>
+  <p id="tokenMsg"></p>
+</div>
 
-      // Generamos token
-      const tokenRes = await fetch('/.netlify/functions/generateToken');
-      const { token } = await tokenRes.json();
+<div id="dniSection" style="display:none;">
+  <label for="dni">Ingrese su DNI:</label>
+  <input type="text" id="dni" placeholder="Ej: 28135054">
+  <button id="viewInforme">Ver Informe</button>
+</div>
 
-      // Abrimos el iframe con la función openCEA
-      const url = `/.netlify/functions/openCEA?token=${token}&dni=${dni}`;
-      document.getElementById('informeFrame').src = url;
-    }
-  </script>
+<iframe id="ceaFrame"></iframe>
+
+<script>
+let userToken = null;
+
+document.getElementById('payButton').addEventListener('click', async () => {
+  // Simula pago y genera token
+  const res = await fetch('/.netlify/functions/generateToken');
+  const data = await res.json();
+  userToken = data.token;
+  document.getElementById('tokenMsg').innerText = 'Token generado: ' + userToken;
+  document.getElementById('dniSection').style.display = 'block';
+});
+
+document.getElementById('viewInforme').addEventListener('click', () => {
+  const dni = document.getElementById('dni').value.trim();
+  if (!dni) { alert('Ingrese un DNI'); return; }
+
+  // Abre CEA embebido en el iframe
+  const iframe = document.getElementById('ceaFrame');
+  iframe.style.display = 'block';
+  iframe.src = `https://www.informescea.com.ar/consulta?dni=${dni}&token=${userToken}`;
+});
+</script>
+
 </body>
 </html>
