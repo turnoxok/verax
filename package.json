@@ -1,5 +1,10 @@
-"dependencies": {
-  "puppeteer-core": "^20.0.0",
-  "chrome-aws-lambda": "^20.0.0",
-  "node-fetch": "^3.3.2"
+{
+  "name": "cea-functions",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "chrome-aws-lambda": "^15.0.0",
+    "puppeteer-core": "^19.11.1",
+    "node-fetch": "^3.3.1"
+  }
 }
