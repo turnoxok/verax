@@ -1,32 +1,81 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Informe CEA</title>
+<meta charset="UTF-8">
+<title>Consulta CEA</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  body { 
+    font-family: Arial, sans-serif; 
+    background: #f5f5f5; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    height: 100vh; 
+  }
+  #container { 
+    background: #fff; 
+    padding: 20px; 
+    border-radius: 10px; 
+    box-shadow: 0 0 10px #ccc; 
+    width: 300px; 
+  }
+  input, button { 
+    width: 100%; 
+    padding: 10px; 
+    margin-top: 10px; 
+    border-radius: 5px; 
+    border: 1px solid #ccc; 
+    font-size: 16px;
+  }
+  button { 
+    background: #533482; 
+    color: #fff; 
+    border: none; 
+    cursor: pointer; 
+  }
+  button:disabled { 
+    background: #aaa; 
+    cursor: not-allowed; 
+  }
+</style>
 </head>
 <body>
-  <h2>Informe CEA</h2>
-  <button onclick="abrirInforme()">Ver mi informe</button>
-  <div id="iframeContainer" style="margin-top:20px;"></div>
 
-  <script>
-    async function abrirInforme() {
-      // 1. Generar token
-      const res = await fetch("/.netlify/functions/generateToken");
-      const data = await res.json();
-      const token = data.token;
+<div id="container">
+  <h3>Consulta tu Informe CEA</h3>
+  <input type="text" id="dni" placeholder="Ingresá tu DNI" maxlength="8">
+  <button id="verInforme" disabled>Ver Informe</button>
+</div>
 
-      // 2. Crear iframe con openCEA.js + token
-      const iframe = document.createElement("iframe");
-      iframe.src = `/.netlify/functions/openCEA?token=${token}`;
-      iframe.width = "100%";
-      iframe.height = "600";
-      iframe.style.border = "1px solid #ccc";
+<script>
+const dniInput = document.getElementById('dni');
+const verBtn = document.getElementById('verInforme');
 
-      const container = document.getElementById("iframeContainer");
-      container.innerHTML = "";
-      container.appendChild(iframe);
-    }
-  </script>
+dniInput.addEventListener('input', () => {
+  // Habilita el botón solo si el DNI tiene 7 u 8 dígitos
+  verBtn.disabled = !/^\d{7,8}$/.test(dniInput.value);
+});
+
+verBtn.addEventListener('click', async () => {
+  const dni = dniInput.value;
+  if (!dni) return;
+
+  try {
+    // Genera un token temporal desde tu función serverless
+    const res = await fetch('/.netlify/functions/generateToken', { method: 'POST' });
+    const data = await res.json();
+    const token = data.token;
+
+    // Abre la función openCEA que usará tu usuario/clave y el DNI
+    const urlCEA = `/openCEA?token=${token}&dni=${dni}`;
+    window.open(urlCEA, '_blank');
+  } catch (err) {
+    alert('Error al generar el informe. Probá nuevamente más tarde.');
+    console.error(err);
+  }
+});
+</script>
+
 </body>
 </html>
