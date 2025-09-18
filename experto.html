@@ -2,50 +2,31 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Informe CEA</title>
+<title>Experto CEA</title>
 <style>
-  body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f0f0f0; }
-  .container { max-width: 700px; margin: 40px auto; padding: 20px; background: #fff; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
-  h1 { text-align: center; color: #333; }
-  label { display: block; margin: 15px 0 5px; font-weight: bold; }
-  input { width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc; font-size: 16px; }
-  button { margin-top: 15px; width: 100%; padding: 12px; font-size: 16px; border: none; border-radius: 8px; background: #533482; color: #fff; cursor: pointer; transition: 0.3s; }
-  button:hover { background: #442a9a; }
-  iframe { width: 100%; height: 600px; border: none; margin-top: 20px; border-radius: 8px; }
-  .loading { text-align: center; margin-top: 20px; font-size: 16px; color: #555; display: none; }
+body { font-family:sans-serif; padding:20px; background:#f4f4f4; }
+input { padding:8px; margin-right:10px; }
+button { padding:8px 12px; cursor:pointer; }
+iframe { width:100%; height:600px; margin-top:20px; border:1px solid #ccc; }
 </style>
 </head>
 <body>
-<div class="container">
-  <h1>Consultar Informe CEA</h1>
-  <label for="dni">Ingrese DNI:</label>
-  <input type="text" id="dni" placeholder="Ej: 28135054" />
-  <button id="verInforme">Ver informe</button>
-  <div class="loading" id="loading">Cargando informe, por favor espere...</div>
-  <iframe id="iframeInforme"></iframe>
-</div>
+
+<h2>Consulta de Informe CEA</h2>
+<input type="text" id="dni" placeholder="Ingresá DNI">
+<button onclick="verInforme()">Ver Informe</button>
+
+<iframe id="informe"></iframe>
 
 <script>
-const btn = document.getElementById('verInforme');
-const dniInput = document.getElementById('dni');
-const iframe = document.getElementById('iframeInforme');
-const loading = document.getElementById('loading');
+function verInforme() {
+  const dni = document.getElementById('dni').value;
+  if (!dni) return alert("Ingresá DNI");
 
-btn.addEventListener('click', () => {
-  const dni = dniInput.value.trim();
-  if (!dni || isNaN(dni)) {
-    alert('Por favor ingrese un DNI válido');
-    return;
-  }
-  const token = 'pfqwngx8'; // tu token seguro generado
-  const url = `/.netlify/functions/openCEA?token=${token}&dni=${dni}`;
-  loading.style.display = 'block';
-  iframe.src = url;
-  iframe.onload = () => {
-    loading.style.display = 'none';
-  };
-});
+  const iframe = document.getElementById('informe');
+  iframe.src = `/.netlify/functions/openCEA?dni=${dni}`;
+}
 </script>
+
 </body>
 </html>
