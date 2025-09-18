@@ -23,7 +23,7 @@ exports.handler = async (event) => {
   return {
     statusCode: 200,
     body: JSON.stringify({
-      link: `https://TU_DOMINIO.netlify.app/.netlify/functions/uploadReport?token=${token}`
+      link: `https://miverax.netlify.app/.netlify/functions/uploadReport?token=${token}`
     })
   };
 };
