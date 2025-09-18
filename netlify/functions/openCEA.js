@@ -17,9 +17,9 @@ exports.handler = async (event) => {
     await page.goto('https://www.informescea.com.ar/', { waitUntil: 'networkidle2' });
 
     // Login automático
-    await page.type('#username', 'CONX');
-    await page.type('#password', 'CONX2025');
-    await page.click('#loginButton'); // Ajustar según CEA
+    await page.type('#username', 'CONX');      // tu usuario CEA
+    await page.type('#password', 'CONX2025');  // tu contraseña CEA
+    await page.click('#loginButton');          // ajustar según CEA
     await page.waitForNavigation({ waitUntil: 'networkidle2' });
 
     // Consulta DNI
