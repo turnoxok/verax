@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Experto - Informe CEA</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  body { font-family: Arial, sans-serif; margin:0; padding:0; background:#f0f0f0; }
+  header { background:#533482; color:#fff; padding:15px; text-align:center; font-size:1.5rem; }
+  main { padding:20px; max-width:800px; margin:auto; }
+  button { background:#EC268F; color:#fff; border:none; padding:12px 20px; border-radius:8px; cursor:pointer; font-size:1rem; }
+  button:hover { background:#d81f90; }
+  iframe { border:1px solid #ccc; margin-top:20px; width:100%; height:600px; border-radius:8px; }
+  #sendSection { margin-top:20px; display:flex; flex-direction:column; gap:10px; }
+  input, textarea { width:100%; padding:10px; border-radius:6px; border:1px solid #ccc; font-size:1rem; }
+</style>
+</head>
+<body>
+
+<header>Consultor Experto - Informe CEA</header>
+
+<main>
+  <p>Para consultar tu informe CEA de manera segura, haz clic en "Obtener informe".</p>
+  <button id="startBtn">Obtener informe</button>
+
+  <div id="iframeContainer"></div>
+
+  <div id="sendSection">
+    <h3>Enviar informe</h3>
+    <input type="text" id="dni" placeholder="Tu DNI">
+    <textarea id="informe" rows="5" placeholder="Copiá aquí tu informe CEA"></textarea>
+    <button id="sendBtn">Enviar informe</button>
+    <p id="status"></p>
+  </div>
+</main>
+
+<script>
+document.getElementById("startBtn").addEventListener("click", async () => {
+  try {
+    const res = await fetch("/.netlify/functions/generateToken");
+    const data = await res.json();
+    const token = data.token;
+
+    const iframe = document.createElement("iframe");
+    iframe.src = `/.netlify/functions/openCEA?token=${token}`;
+    document.getElementById("iframeContainer").innerHTML = "";
+    document.getElementById("iframeContainer").appendChild(iframe);
+  } catch (e) {
+    alert("Error generando token, intentá nuevamente.");
+    console.error(e);
+  }
+});
+
+document.getElementById("sendBtn").addEventListener("click", async () => {
+  const dni = document.getElementById("dni").value.trim();
+  const informe = document.getElementById("informe").value.trim();
+  const status = document.getElementById("status");
+
+  if (!dni || !informe) {
+    status.textContent = "Completa DNI e informe antes de enviar.";
+    status.style.color = "red";
+    return;
+  }
+
+  try {
+    const res = await fetch("/.netlify/functions/uploadReport", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ dni, informe })
+    });
+    if(res.ok) {
+      status.textContent = "Informe enviado correctamente ✅";
+      status.style.color = "green";
+      document.getElementById("dni").value = "";
+      document.getElementById("informe").value = "";
+    } else {
+      status.textContent = "Error enviando informe.";
+      status.style.color = "red";
+    }
+  } catch (e) {
+    status.textContent = "Error de conexión.";
+    status.style.color = "red";
+    console.error(e);
+  }
+});
+</script>
+
+</body>
+</html>
