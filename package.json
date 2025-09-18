@@ -1,6 +1,7 @@
 {
-  "name": "cea-functions",
+  "name": "auto-cea",
   "version": "1.0.0",
+  "description": "Consulta automática de CEA desde Netlify",
   "type": "commonjs",
   "dependencies": {
     "chrome-aws-lambda": "^13.3.2",
