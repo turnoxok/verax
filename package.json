@@ -4,8 +4,8 @@
   "description": "Consulta automática de CEA desde Netlify",
   "type": "commonjs",
   "dependencies": {
-    "chrome-aws-lambda": "^13.3.2",
-    "puppeteer-core": "^13.7.0",
-    "node-fetch": "^2.6.12"
-  }
+  "chrome-aws-lambda": "^15.3.1",
+  "puppeteer-core": "^15.3.1",
+  "node-fetch": "^2.6.12"
+}
 }
