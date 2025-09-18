@@ -1,11 +1,15 @@
 {
-  "name": "auto-cea",
+  "name": "verax",
   "version": "1.0.0",
-  "description": "Consulta automática de CEA desde Netlify",
+  "description": "Funciones para acceso CEA",
+  "main": "index.js",
   "type": "commonjs",
+  "scripts": {
+    "start": "netlify dev"
+  },
   "dependencies": {
-  "chrome-aws-lambda": "^15.3.1",
-  "puppeteer-core": "^15.3.1",
-  "node-fetch": "^2.6.12"
-}
+    "chrome-aws-lambda": "^18.1.0",
+    "puppeteer-core": "^18.1.0",
+    "node-fetch": "^2.6.12"
+  }
 }
