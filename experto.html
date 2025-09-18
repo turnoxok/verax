@@ -29,7 +29,7 @@ startBtn.onclick = async () => {
   const { token } = await res.json();
 
   // 2️⃣ Mostrar iframe con token en query
-  iframe.src = `https://tu-CEA.com/consulta?token=${token}`;
+  iframe.src = `https://www.informescea.com.ar/consulta?token=${token}`;
   iframe.style.display = 'block';
 
   // 3️⃣ Esperar que el usuario haga clic en "guardar informe" dentro del iframe
