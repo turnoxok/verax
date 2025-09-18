@@ -1,34 +1,62 @@
-import fetch from "node-fetch"; // asegurate de usar "type":"module" en package.json
+// netlify/functions/openCEA.js
+import chromium from "chrome-aws-lambda";
 
 export const handler = async (event) => {
-  const { token } = event.queryStringParameters;
+  try {
+    const { token, dni } = event.queryStringParameters || {};
 
-  if (!token) {
-    return { statusCode: 400, body: "Token faltante" };
+    // Validación simple de token
+    if (!token || token !== "pfqwngx8") {
+      return {
+        statusCode: 401,
+        body: "Token inválido",
+      };
+    }
+
+    if (!dni) {
+      return {
+        statusCode: 400,
+        body: "Falta el parámetro DNI",
+      };
+    }
+
+    // Iniciamos navegador sin cabeza
+    const browser = await chromium.puppeteer.launch({
+      args: chromium.args,
+      defaultViewport: chromium.defaultViewport,
+      executablePath: await chromium.executablePath,
+      headless: chromium.headless,
+    });
+
+    const page = await browser.newPage();
+
+    // Abrimos CEA login
+    await page.goto("https://www.informescea.com.ar/login", { waitUntil: "networkidle2" });
+
+    // Autocompletamos usuario y contraseña
+    await page.type("#username", "CONX");      // tu usuario
+    await page.type("#password", "CONX2025");  // tu contraseña
+    await page.click("#loginButton");          // botón login
+    await page.waitForNavigation({ waitUntil: "networkidle2" });
+
+    // Ingresamos el DNI a consultar
+    await page.goto(`https://www.informescea.com.ar/consulta?dni=${dni}`, { waitUntil: "networkidle2" });
+
+    // Tomamos el HTML de la página de resultados
+    const html = await page.content();
+
+    await browser.close();
+
+    return {
+      statusCode: 200,
+      headers: { "Content-Type": "text/html" },
+      body: html,
+    };
+  } catch (error) {
+    console.error(error);
+    return {
+      statusCode: 500,
+      body: "Error interno al generar el informe",
+    };
   }
-
-  // Aquí validarías el token con tu "DB" o memoria si querés expiración
-  // Por simplicidad, aceptamos cualquier token generado recientemente
-
-  const usuarioCEA = "CONX";
-  const claveCEA = "CONX2025";
-
-  // Redirigimos al usuario con un autologin (ejemplo con POST form embebido)
-  const html = `
-    <html>
-    <body>
-      <form id="f" action="https://www.informescea.com.ar/login" method="POST">
-        <input type="hidden" name="usuario" value="${usuarioCEA}" />
-        <input type="hidden" name="clave" value="${claveCEA}" />
-      </form>
-      <script>document.getElementById('f').submit();</script>
-    </body>
-    </html>
-  `;
-
-  return {
-    statusCode: 200,
-    headers: { "Content-Type": "text/html" },
-    body: html
-  };
 };
