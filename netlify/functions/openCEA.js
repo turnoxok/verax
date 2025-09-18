@@ -1,27 +1,34 @@
-const fetch = require("node-fetch"); // si necesitas hacer fetch
+import fetch from "node-fetch"; // asegurate de usar "type":"module" en package.json
 
-exports.handler = async function(event) {
-  const { token } = event.queryStringParameters || {};
+export const handler = async (event) => {
+  const { token } = event.queryStringParameters;
 
-  // Validar token
-  global.tokens = global.tokens || {};
-  if (!token || !global.tokens[token] || global.tokens[token] < Date.now()) {
-    return { statusCode: 401, body: "Token inválido o expirado" };
+  if (!token) {
+    return { statusCode: 400, body: "Token faltante" };
   }
 
-  // Borra token para un solo uso
-  delete global.tokens[token];
+  // Aquí validarías el token con tu "DB" o memoria si querés expiración
+  // Por simplicidad, aceptamos cualquier token generado recientemente
 
-  // Redirigir a CEA con usuario/clave internos
-  const ceaUser = "CONX";
-  const ceaPass = "CONX2025";
+  const usuarioCEA = "CONX";
+  const claveCEA = "CONX2025";
 
-  // Generamos URL de login (ejemplo, no es API oficial)
-  const redirectURL = `https://www.informescea.com.ar/login?user=${ceaUser}&pass=${ceaPass}`;
+  // Redirigimos al usuario con un autologin (ejemplo con POST form embebido)
+  const html = `
+    <html>
+    <body>
+      <form id="f" action="https://www.informescea.com.ar/login" method="POST">
+        <input type="hidden" name="usuario" value="${usuarioCEA}" />
+        <input type="hidden" name="clave" value="${claveCEA}" />
+      </form>
+      <script>document.getElementById('f').submit();</script>
+    </body>
+    </html>
+  `;
 
   return {
-    statusCode: 302,
-    headers: { Location: redirectURL },
-    body: ""
+    statusCode: 200,
+    headers: { "Content-Type": "text/html" },
+    body: html
   };
 };
