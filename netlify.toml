@@ -1,0 +1,6 @@
+[build]
+  publish = "."         # Publica desde el root (donde está experto.html)
+  functions = "netlify/functions"
+
+[dev]
+  functions = "netlify/functions"
