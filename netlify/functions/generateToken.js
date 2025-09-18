@@ -1,8 +1,5 @@
-// netlify/functions/generateToken.js
-exports.handler = async function(event, context) {
-  // Genera un token simple de prueba (no seguro, solo para test)
-  const token = Math.random().toString(36).substring(2, 12);
-
+exports.handler = async () => {
+  const token = Math.random().toString(36).substr(2, 10); // token simple
   return {
     statusCode: 200,
     body: JSON.stringify({ token })
